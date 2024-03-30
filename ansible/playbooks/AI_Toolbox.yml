@@ -32,13 +32,12 @@
             msg: "You selected option {{ option }}"
 
         # Add tasks or roles based on the selected option
-        # Task examples:
-        # - include_tasks: detectron2_setup.yml
-        #   when: option == 1
-        # - include_tasks: detectron2_notebooks.yml
-        #   when: option == 2
-        # - include_tasks: throw_bricks_at_jefke.yml
-        #   when: option == 3
+         - include_tasks: detectron2_setup.yml
+           when: option == 1
+         - include_tasks: detectron2_notebooks.yml
+           when: option == 2
+         - include_tasks: bricks.yml
+           when: option == 3
 
       when: option | int in [1, 2, 3]
 
