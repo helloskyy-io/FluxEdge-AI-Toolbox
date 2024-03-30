@@ -14,10 +14,15 @@
 
 <p>The toolbox utilizes a bash script to install Ansible and adheres to the principles of "infrastructure as code." Accessed through FluxEdge's Terminal GUI, it prompts users to specify their desired environment based on their intended framework or model. Subsequently, it executes a series of Ansible "plays" to configure the necessary packages and dependencies.</p>
 
-<p>These tools are freely available to the community for both private and public use. </p>
+<p>These tools are freely available to the community for both private and public use. Feel free to use this as a framework to improve upon in your own deployment adventures. If you have changes to this framework that you feel would benefit the community please submit a pull request!</p>
 
-<p> To run AI Toolbox copy/past the following command into the terminal GUI on FluxEdge, then follow the prompts. </p>
+<p>AI Toolbox assumes the following:
+1. you have created a project at FluxEdge
+2. you have chosen the Ubuntu Custom option from the AI menu
 
+<p> To run AI Toolbox copy/past the following commands into the terminal GUI on FluxEdge, then follow the prompts.</p>
+
+<h3>apt install bash -y <h3>
 <h3>bash <(curl -s https://raw.githubusercontent.com/helloskyy-io/FluxEdge-AI-Toolbox/main/bash/AI_toolbox.sh)
 </h3>
 
