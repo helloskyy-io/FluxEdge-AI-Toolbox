@@ -55,4 +55,4 @@ fi
 
 # Launch Ansible playbook
 echo "Launching Ansible playbook..."
-ansible-playbook -i localhost, -c local /FluxEdge_AI_Toolbox/playbooks/AI_Toolbox.yml
+ansible-playbook -i localhost, -c local /FluxEdge_AI_Toolbox/ansible/playbooks/AI_Toolbox.yml
