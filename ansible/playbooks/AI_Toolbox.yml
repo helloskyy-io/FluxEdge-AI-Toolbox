@@ -1,0 +1,9 @@
+---
+- name: AI Toolbox Main Playbook
+  hosts: localhost
+  gather_facts: no
+
+  tasks:
+    - name: Print confirmation message
+      debug:
+        msg: "Yes, it's working!"
