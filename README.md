@@ -8,7 +8,7 @@
 <p>join the discord:</p>
 <h3><a href="https://discord.io/techdufus">https://discord.io/techdufus</a></h3>
 
-<h1>FLuxEdge AI Toolbox.</h1>
+<h1>FluxEdge AI Toolbox.</h1>
 
 <p>FluxEdge AI Toolbox is designed to streamline the configuration of container environments on FluxEdge by automating the installation of required packages and dependencies for various AI frameworks and models. Our aim is to enable users to focus more on learning AI and less on grappling with technical setup.</p>
 
