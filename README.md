@@ -16,7 +16,7 @@
 
 <p>These tools are freely available to the community for both private and public use. </p>
 
-<p> To run AI Toolbox copy/past the follwoing command into the terminal GUI on FluxEdge, then follow the prompts. </p>
+<p> To run AI Toolbox copy/past the following command into the terminal GUI on FluxEdge, then follow the prompts. </p>
 
 <h3>bash <(curl -s https://raw.githubusercontent.com/helloskyy-io/FluxEdge-AI-Toolbox/main/AI_toolbox.sh)
 </h3>
