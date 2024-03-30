@@ -10,11 +10,11 @@
 
 <h1>FLuxEdge AI Toolbox.</h1>
 
-<p>The purpose of FluxEdge AI Toolbox is to provide a set of automated tools to quickly configure the container environments provided on FluxEdge with the required packages and dependencies needed for various AI frameworks and Models so that you can spend more time learning AI and less time fighting with your tools.</p>
+<p>FluxEdge AI Toolbox is designed to streamline the configuration of container environments on FluxEdge by automating the installation of required packages and dependencies for various AI frameworks and models. Our aim is to enable users to focus more on learning AI and less on grappling with technical setup.</p>
 
-<p>FluxEdge AI Toolbox installs Ansible via bash script, and runs infrastructure as code on the container from the Terminal GUI provided by the FluxEdge application. From here it prompts the user as to what type of environment they want conifgured based on the type of framework or model they intend to run. It then runs a series of "plays" to properly configure the necessary packages and dependencies via Ansible.</p>
+<p>The toolbox utilizes a bash script to install Ansible and adheres to the principles of "infrastructure as code." Accessed through FluxEdge's Terminal GUI, it prompts users to specify their desired environment based on their intended framework or model. Subsequently, it executes a series of Ansible "plays" to configure the necessary packages and dependencies.</p>
 
-<p>These tools are provided free to the community for use both privately and publically. </p>
+<p>These tools are freely available to the community for both private and public use. </p>
 
 <h3> - Puma </h3>
 
