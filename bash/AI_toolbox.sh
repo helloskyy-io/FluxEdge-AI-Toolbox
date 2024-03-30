@@ -27,15 +27,15 @@ fi
 
 # Update package repositories
 echo "Updating package repositories..."
-sudo apt update
+apt update
 
 # Upgrade installed packages
 echo "Upgrading installed packages..."
-sudo apt upgrade -y
+apt upgrade -y
 
 # Install Ansible
 echo "Installing Ansible..."
-sudo apt install -y ansible
+apt install -y ansible
 
 # Clone Ansible repository
 echo "Cloning FluxEdge-AI-Toolbox..."
