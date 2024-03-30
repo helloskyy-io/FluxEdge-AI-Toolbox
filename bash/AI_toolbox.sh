@@ -31,7 +31,7 @@ apt update
 
 # Upgrade installed packages
 echo "Upgrading installed packages..."
-apt upgrade -y
+# apt upgrade -y
 
 # Install Ansible
 echo "Installing Ansible..."
@@ -43,9 +43,16 @@ git clone https://github.com/helloskyy-io/FluxEdge-AI-Toolbox.git FluxEdge_AI_To
 
 # Display completion message
 echo "Ansible installation and configuration completed successfully."
-echo "Ready to launch Ansible? (y/n)"
-read -p "You can also run it manually by copying the following command: ansible-playbook -i localhost, -c local /FluxEdge_AI_Toolbox/AI_Toolbox.yml" choice2
-if [[ ! $choice2 =~ ^[Yy]$ ]]; then
+echo "You can also run it manually by copying the following command: "
+echo "ansible-playbook -i localhost, -c local /FluxEdge_AI_Toolbox/AI_Toolbox.yml"
+
+# Prompt user for confirmation to proceed
+read -p "Ready to launch Ansible? (y/n): " choice
+if [[ ! $choice =~ ^[Yy]$ ]]; then
     echo "Exiting script."
     exit 1
 fi
+
+# Launch Ansible playbook
+echo "Launching Ansible playbook..."
+ansible-playbook -i localhost, -c local /FluxEdge_AI_Toolbox/AI_Toolbox.yml
