@@ -44,4 +44,4 @@ git clone https://github.com/helloskyy-io/FluxEdge-AI-Toolbox.git ~/
 # Display completion message
 echo "Ansible installation and configuration completed successfully."
 echo "to launch Ansible <copy + shift + c> the following command"
-echo "edit me!!! (to launch the main Ansible playbook)"
+echo "edit me!!! (command to launch the main Ansible playbook)"
