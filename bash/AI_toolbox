@@ -1,0 +1,41 @@
+#!/bin/bash
+
+# display logo
+echo " #####                        #     #"              
+echo "#     # #    # #   # #   #    ##    # ###### ##### " 
+echo "#       #   #   # #   # #     # #   # #        #   "
+echo " #####  ####     #     #      #  #  # #####    #   "
+echo "      # #  #     #     #      #   # # #        #   "
+echo "#     # #   #    #     #      #    ## #        #   "
+echo " #####  #    #   #     #      #     # ######   #   "
+echo ""
+echo "System activated..."
+sleep 2
+
+# Output description of the script's purpose
+echo "This script will install and configure Ansible on your Ubuntu server container."
+echo "It will also perform system updates using apt update/upgrade."
+echo "Once complete it will prompt you to configure the container packages and dependancies via Ansible."
+sleep 2
+
+# Prompt user for confirmation to proceed
+read -p "Do you want to continue? (y/n): " choice
+if [[ ! $choice =~ ^[Yy]$ ]]; then
+    echo "Exiting script."
+    exit 1
+fi
+
+# Update package repositories
+echo "Updating package repositories..."
+sudo apt update
+
+# Upgrade installed packages
+echo "Upgrading installed packages..."
+sudo apt upgrade -y
+
+# Install Ansible
+echo "Installing Ansible..."
+sudo apt install -y ansible
+
+# Display completion message
+echo "Ansible installation and configuration completed successfully."
