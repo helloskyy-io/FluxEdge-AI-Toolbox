@@ -34,11 +34,11 @@
             
         # Add tasks or roles based on the selected option
         - include_tasks: detectron2_setup.yml
-          when: option == 1
+          when: option | int == 1
         - include_tasks: detectron2_notebooks.yml
-          when: option == 2
+          when: option | int == 2
         - include_tasks: bricks.yml
-          # when: option == 3
+          when: option | int == 3
       when: option | int in [1, 2, 3]
 
     # Exit AI Toolbox
