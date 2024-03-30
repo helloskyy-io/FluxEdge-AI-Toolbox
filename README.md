@@ -10,13 +10,13 @@
 
 <h1>FluxEdge AI Toolbox.</h1>
 
-<p>FluxEdge AI Toolbox is designed to streamline the configuration of container environments on FluxEdge by automating the installation of required packages and dependencies for various AI frameworks and models. Our aim is to enable users to focus more on learning AI and less on grappling with technical setup.</p>
+<p>FluxEdge AI Toolbox is designed to streamline the configuration of custom container environments on FluxEdge by providing an Ansible framework to automate the installation of required packages and dependencies and general setups for various AI frameworks and modelsthat go above and beyond the standard offerings in the marlet place. Our aim is to enable users to rapidly reproduce working environments and allow datascientists to focus more on learning AI and less on grappling with technical setups.</p>
 
-<p>The toolbox utilizes a bash script to install Ansible and adheres to the principles of "infrastructure as code." Accessed through FluxEdge's Terminal GUI, it prompts users to specify their desired environment based on their intended framework or model. Subsequently, it executes a series of Ansible "plays" to configure the necessary packages and dependencies.</p>
+<p>The toolbox utilizes a bash script to install Ansible and adheres to the principles of "infrastructure as code." Accessed through FluxEdge's Terminal GUI, it prompts users to specify their desired environment based on their intended framework or model. Subsequently, it executes a series of Ansible "plays" to configure the necessary packages and dependencies. We encourage you use our prebuilt options as well as expand on this and or customize it to your individual needs.</p>
 
-<p>These tools are freely available to the community for both private and public use. Feel free to use this as a framework to improve upon in your own deployment adventures. If you have changes to this framework that you feel would benefit the community please submit a pull request!</p>
+<p>These tools are freely available to the community for both private and public use. Feel free to use this as a framework to improve upon in your own deployment adventures. If you have changes to this framework that you feel would benefit the community as part of the "base" offering, please submit a pull request!</p>
 
-<p>AI Toolbox assumes the following:
+<p>AI Toolbox assumes the following:</p>
 1. you have created a project at FluxEdge
 2. you have chosen the Ubuntu Custom option from the AI menu
 
