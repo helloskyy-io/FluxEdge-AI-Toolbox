@@ -18,12 +18,12 @@
             that:
               - option | int in [1, 2, 3, 4]
             msg: "Invalid option. Please choose a valid option (1, 2, 3, or 4)."
-      rescue:
-        - debug:
-            msg: "Invalid option. Please choose a valid option (1, 2, 3, or 4)."
-        - set_fact:
-            option: null
-        - continue
+      # rescue:
+      #   - debug:
+      #       msg: "Invalid option. Please choose a valid option (1, 2, 3, or 4)."
+      #   - set_fact:
+      #       option: null
+      #   - continue
 
     - name: Process selected option
       block:
