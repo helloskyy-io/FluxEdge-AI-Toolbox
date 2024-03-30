@@ -38,7 +38,7 @@
         - include_tasks: detectron2_notebooks.yml
           when: option == 2
         - include_tasks: bricks.yml
-          when: option == 3
+          # when: option == 3
       when: option | int in [1, 2, 3]
 
     # Exit AI Toolbox
