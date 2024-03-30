@@ -18,4 +18,9 @@
 
 <h3> - Puma </h3>
 
+<p> To run AI Toolbox copy/past the follwoing command into the terminal GUI on FluxEdge. </p>
+
+<p>bash <(curl -s https://raw.githubusercontent.com/helloskyy-io/FluxEdge-AI-Toolbox/main/AI_toolbox.sh)
+</p>
+
 </main>
