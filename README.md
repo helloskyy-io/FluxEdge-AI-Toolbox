@@ -17,8 +17,8 @@
 <p>These tools are freely available to the community for both private and public use. Feel free to use this as a framework to improve upon in your own deployment adventures. If you have changes to this framework that you feel would benefit the community as part of the "base" offering, please submit a pull request!</p>
 
 <p>AI Toolbox assumes the following:</p>
-1. you have created a project at FluxEdge
-2. you have chosen the Ubuntu Custom option from the AI menu
+<p>1. you have created a project at FluxEdge</p>
+<p>2. you have chosen the Ubuntu Custom option from the AI menu</p>
 
 <p> To run AI Toolbox copy/past the following commands into the terminal GUI on FluxEdge, then follow the prompts.</p>
 

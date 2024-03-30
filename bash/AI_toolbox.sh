@@ -71,7 +71,7 @@ echo ""
 echo "Ansible installation and configuration completed successfully."
 sleep 2
 echo "You can run it manually by copying the following command: "
-echo "ansible-playbook -i localhost, -c local /FluxEdge_AI_Toolbox/AI_Toolbox.yml"
+echo "ansible-playbook -i localhost, -c local /FluxEdge_AI_Toolbox/ansible/playbooks/AI_Toolbox.yml"
 
 # Prompt user for confirmation to proceed
 echo ""
