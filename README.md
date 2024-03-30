@@ -24,7 +24,7 @@
   <li>you have chosen the Ubuntu Custom option from the AI menu</li>
 </ol>
 
-<p> To run AI Toolbox copy/past the following commands into the terminal GUI on FluxEdge, then follow the prompts.</p>
+<p> To run AI Toolbox copy/past the following commands into the GUI terminal on FluxEdge, then follow the prompts.</p>
 
 <h3>apt install bash -y <h3>
 <h3>bash <(curl -s https://raw.githubusercontent.com/helloskyy-io/FluxEdge-AI-Toolbox/main/bash/AI_toolbox.sh)

@@ -1,7 +1,15 @@
-- name: Collecting bricks from yard
-  debug:
-    msg: "Collecting bricks from yard..."
+# bricks.yml Playbook
+# This playbook is called from the while loop in AI_Toolbox.yml 
+# it initiates the process of tossing bricks (as a test)
 
-- name: Now throwing bricks at Davey
-  debug:
-    msg: "Now throwing bricks at Davey..."
+- name: Play to demonstrate throwing bricks
+  hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: Collecting bricks from yard
+      debug:
+        msg: "Collecting bricks from yard..."
+
+    - name: Now throwing bricks at Davey
+      debug:
+        msg: "Now throwing bricks at Davey..."
