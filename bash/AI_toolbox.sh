@@ -39,7 +39,7 @@ apt install -y ansible
 
 # Clone Ansible repository
 echo "Cloning FluxEdge-AI-Toolbox..."
-git clone https://github.com/helloskyy-io/FluxEdge-AI-Toolbox.git FluxEdge_AI_Toolbox
+git clone https://github.com/helloskyy-io/FluxEdge-AI-Toolbox.git /FluxEdge_AI_Toolbox
 
 # Display completion message
 echo "Ansible installation and configuration completed successfully."
@@ -55,4 +55,4 @@ fi
 
 # Launch Ansible playbook
 echo "Launching Ansible playbook..."
-ansible-playbook -i localhost, -c local /FluxEdge_AI_Toolbox/AI_Toolbox.yml
+ansible-playbook -i localhost, -c local /FluxEdge_AI_Toolbox/playbooks/AI_Toolbox.yml
