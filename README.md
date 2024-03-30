@@ -18,7 +18,7 @@
 
 <p> To run AI Toolbox copy/past the following command into the terminal GUI on FluxEdge, then follow the prompts. </p>
 
-<h3>bash <(curl -s https://raw.githubusercontent.com/helloskyy-io/FluxEdge-AI-Toolbox/main/AI_toolbox.sh)
+<h3>bash <(curl -s https://raw.githubusercontent.com/helloskyy-io/FluxEdge-AI-Toolbox/main/bash/AI_toolbox.sh)
 </h3>
 
 <h3> - Puma </h3>
