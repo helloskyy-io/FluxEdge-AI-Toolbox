@@ -10,7 +10,7 @@
 
 <h1>FluxEdge AI Toolbox.</h1>
 
-<p>FluxEdge AI Toolbox is designed to streamline the configuration of custom container environments on FluxEdge by providing an Ansible framework to automate the installation of required packages and dependencies and general setups for various AI frameworks and modelsthat go above and beyond the standard offerings in the marlet place. Our aim is to enable users to rapidly reproduce working environments and allow datascientists to focus more on learning AI and less on grappling with technical setups.</p>
+<p>FluxEdge AI Toolbox is designed to streamline the configuration of custom container environments on FluxEdge by providing an Ansible framework to automate the installation of required packages, dependencies, and general setups for various AI frameworks and models, that go above and beyond the standard configuration offerings in the market place. Our aim is to enable users to rapidly reproduce working environments and allow data scientists to focus more on learning AI and less on grappling with technical setups.</p>
 
 <p>The toolbox utilizes a bash script to install Ansible and adheres to the principles of "infrastructure as code." Accessed through FluxEdge's Terminal GUI, it prompts users to specify their desired environment based on their intended framework or model. Subsequently, it executes a series of Ansible "plays" to configure the necessary packages and dependencies. We encourage you use our prebuilt options as well as expand on this and or customize it to your individual needs.</p>
 
@@ -26,6 +26,6 @@
 <h3>bash <(curl -s https://raw.githubusercontent.com/helloskyy-io/FluxEdge-AI-Toolbox/main/bash/AI_toolbox.sh)
 </h3>
 
-<h3> - Puma </h3>
+<p> - Puma <p>
 
 </main>
