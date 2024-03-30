@@ -1,46 +1,47 @@
----
+# AI_Toolbox.yml Playbook
+# This playbook allows users to select options for configuring the container environment.
+
 - name: AI Toolbox Playbook
   hosts: localhost
   gather_facts: no
+  
+  # Prompt the user to select an option
   vars_prompt:
     - name: "option"
       prompt: |
         "Choose an option:
         1. Configure container for Detectron2 Computer Vision Framework
-        2. Import "sample" Jupyter Notebooks for Detectron2 
+        2. Import 'sample' Jupyter Notebooks for Detectron2 
         3. Throw Bricks at Jefke
         4. Exit AI Toolbox"
       private: no
+      
   tasks:
+    # Validate the selected option
     - name: Validate the selected option
       block:
         - assert:
             that:
               - option | int in [1, 2, 3, 4]
             msg: "Invalid option. Please choose a valid option (1, 2, 3, or 4)."
-      # rescue:
-      #   - debug:
-      #       msg: "Invalid option. Please choose a valid option (1, 2, 3, or 4)."
-      #   - set_fact:
-      #       option: null
-      #   - continue
-
+      
+    # Process selected option
     - name: Process selected option
       block:
         - name: Display selected option
           debug:
             msg: "You selected option {{ option }}"
-
+            
         # Add tasks or roles based on the selected option
-         - include_tasks: detectron2_setup.yml
-           when: option == 1
-         - include_tasks: detectron2_notebooks.yml
-           when: option == 2
-         - include_tasks: bricks.yml
-           when: option == 3
-
+        - include_tasks: detectron2_setup.yml
+          when: option == 1
+        - include_tasks: detectron2_notebooks.yml
+          when: option == 2
+        - include_tasks: bricks.yml
+          when: option == 3
       when: option | int in [1, 2, 3]
 
+    # Exit AI Toolbox
     - name: Exit AI Toolbox
       block:
         - debug:
