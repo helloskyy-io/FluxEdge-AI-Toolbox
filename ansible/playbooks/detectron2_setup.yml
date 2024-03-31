@@ -2,8 +2,9 @@
 # This playbook calls roles as necessary to configure the packages and dependencies
 # necessary to create a base container environment for the Detectron2 conputer Vision AI framework.
 
-- hosts: localhost
-  roles:
-    - role: role_configure_cuda
-      vars:
-        cuda_version: "12.4"
+- name: Ensure CUDA 12.3 is installed for Detectron2
+  include_role:
+    name: role_configure_cuda
+  vars:
+    cuda_version: "12.4"
+  # when: detectron2_requires_cuda
