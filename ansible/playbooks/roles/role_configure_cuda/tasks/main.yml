@@ -2,18 +2,13 @@
 # This role checks existing version of cuda and removes if not matching desired version
 # role then installs correct version of cuda
 
-# temporarily add cuda to PATH or the command to check if cuda is installed may not work
-# even if cuda is already installed! (this keeps the code from being idempotant)
-- name: Temporarily update PATH for Ansible tasks
-  set_fact:
-    ansible_env:
-      PATH: "/usr/local/cuda-12.4/bin:{{ ansible_env.PATH }}"
-
 # Check the currently installed version of CUDA using the nvcc command
 - name: Check current CUDA version
   command: nvcc --version
   register: cuda_version_check
   ignore_errors: yes
+  environment:
+    PATH: "/usr/local/cuda-12.4/bin:{{ ansible_env.PATH }}"
 
 # Prompt the user for confirmation to remove existing CUDA versions if the detected version is not 12+
 - name: Prompt for CUDA removal if not version 12+
