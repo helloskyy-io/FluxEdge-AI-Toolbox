@@ -1,67 +1,78 @@
-# main.yml Under role_configure_cuda
-# This role checks for the correct version of cuda and removes if not matching desired version
-# role then installs correct version of cuda
+# main.yml for role_configure_cuda
+# This role dynamically checks for and installs a specified version of CUDA,
+# making it reusable for different environments with varying CUDA version requirements.
 
-# if desrired end state of Cuda 12.4 is false, assert any other cuda installations are purged
-- name: Remove any existing CUDA versions if CUDA 12.4 is not present
-  block:
-    - name: Check if CUDA Toolkit 12.4 is installed
-      shell: dpkg -l | grep cuda-toolkit-12-4
-      register: cuda_12_4_installed
-      failed_when: cuda_12_4_installed.rc != 0
-      ignore_errors: true
-      changed_when: false
-      
-    - name: Purge existing CUDA installations
-      apt:
-        name: cuda*
-        state: absent
-        purge: yes
-      when: not cuda_12_4_installed.rc == 0
+# Set up dynamic variables based on the specified CUDA version.
+# These variables will be used throughout this role to ensure the correct version of CUDA is managed.
+- name: Define CUDA version-specific variables
+  set_fact:
+    cuda_package_name: "cuda-toolkit-{{ cuda_version }}"  # Dynamic package name for the desired CUDA version.
+    cuda_keyring_path: "/usr/share/keyrings/cuda-archive-keyring.gpg"  # Path to the CUDA keyring file.
+    cuda_repo_deb_url: "https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/cuda-keyring_1.1-1_all.deb"  # URL for downloading the CUDA keyring.
+    cuda_bin_path: "/usr/local/cuda-{{ cuda_version }}/bin"  # CUDA binary path, dependent on version.
+  tags: always
+
+# Check if the specified version of the CUDA Toolkit is already installed to avoid unnecessary operations.
+- name: Check if the specified version of CUDA Toolkit is installed
+  shell: dpkg -l | grep -w "{{ cuda_package_name }}"
+  register: cuda_installed
+  ignore_errors: true
+  changed_when: false
+
+# If the desired version of CUDA is not installed, purge existing CUDA installations to avoid conflicts.
+# This step ensures that only the specified version of CUDA is present on the system.
+- name: Purge existing CUDA installations if not the specified version
+  apt:
+    name: cuda*
+    state: absent
+    purge: yes
+  when: not cuda_installed.rc == 0  # Condition based on the check for the specified CUDA version.
   become: yes
 
-# Installation block for CUDA 12.4 Toolkit, ensuring the system has the required version
-- name: Install CUDA 12.4 Toolkit
-  block:
-  
-  # Check for existing CUDA keyring
-    - name: Check for existing CUDA keyring
-      stat:
-        path: /usr/share/keyrings/cuda-archive-keyring.gpg
-      register: cuda_keyring_stat
-      changed_when: false
+# Ensure the CUDA keyring, which is required for authenticating CUDA packages, is present.
+- name: Check for existing CUDA keyring
+  stat:
+    path: "{{ cuda_keyring_path }}"
+  register: cuda_keyring_stat
+  changed_when: false
 
-    # Download and add the CUDA keyring if it does not exist
+# Download and install the CUDA keyring if it does not already exist.
+# This is required to authenticate packages from the CUDA repository.
+- name: Download and add the CUDA keyring if it does not exist
+  block:
     - name: Download CUDA Keyring
       get_url:
-        url: https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/cuda-keyring_1.1-1_all.deb
-        dest: "/tmp/cuda-keyring_1.1-1_all.deb"
+        url: "{{ cuda_repo_deb_url }}"
+        dest: "/tmp/cuda-keyring.deb"
       when: not cuda_keyring_stat.stat.exists
-      changed_when: true
 
     - name: Install CUDA Keyring
       apt:
-        deb: "/tmp/cuda-keyring_1.1-1_all.deb"
+        deb: "/tmp/cuda-keyring.deb"
       when: not cuda_keyring_stat.stat.exists
       become: yes
-    
-    # Update the APT package cache to recognize new repositories
-    - name: Update APT repository cache
-      apt:
-        update_cache: yes
 
-    # Install the specified version of the CUDA Toolkit
-    - name: Install CUDA Toolkit 12.4
-      apt:
-        name: cuda-toolkit-12-4
-        state: present
+# Update the APT package cache to ensure the latest package listings are fetched from the repository.
+- name: Update the APT package cache to recognize new repositories
+  apt:
+    update_cache: yes
+  become: yes
 
-    # Add cuda to PATH to allow cuda commands to be called
-    - name: Ensure CUDA bin directory is in PATH
-      lineinfile:
-        path: /etc/environment
-        state: present
-        backrefs: yes
-        regexp: '^(PATH=")(.*)"$'
-        line: '\1\2:/usr/local/cuda-12.4/bin'
+# Install the specified version of the CUDA Toolkit.
+# This step ensures that the required version of CUDA is installed and ready to use.
+- name: Install the specified version of the CUDA Toolkit
+  apt:
+    name: "{{ cuda_package_name }}"
+    state: present
+  become: yes
+
+# Add the CUDA binaries to the system PATH to ensure they are accessible without specifying the full path.
+# This facilitates ease of use and compatibility with various software and scripts.
+- name: Ensure CUDA bin directory is in PATH
+  lineinfile:
+    path: /etc/environment
+    state: present
+    backrefs: yes
+    regexp: '^(PATH=")(.*)"$'
+    line: '\1\2:{{ cuda_bin_path }}'
   become: yes
