@@ -20,6 +20,7 @@
   apt:
     name: cuda*
     state: absent
+  when: cuda_removal_confirmation is defined
   when: cuda_removal_confirmation.user_input | lower == 'y'
   become: yes
 
