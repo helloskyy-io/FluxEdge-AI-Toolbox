@@ -36,3 +36,6 @@
   vars:
     cuda_version: "12.4"
   
+- name: Configure Pytorch for Detectron2
+  include_role:
+    name: role_configure_pytorch
