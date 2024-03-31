@@ -23,7 +23,7 @@
   when: cuda_removal_confirmation.user_input | lower == 'y'
   become: yes
 
- - name: Install CUDA 12.4 Toolkit
+- name: Install CUDA 12.4 Toolkit
   block:
     - name: Download CUDA Keyring
       get_url:
