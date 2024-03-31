@@ -25,7 +25,7 @@
     state: absent
   when: 
     - cuda_removal_confirmation is defined
-    - cuda_removal_confirmation.user_input | lower == 'y'
+    - "'y' in (cuda_removal_confirmation.user_input | default('n') | lower)"
   become: yes
 
 # Installation block for CUDA 12.4 Toolkit, ensuring the system has the required version
