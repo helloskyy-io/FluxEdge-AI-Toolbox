@@ -76,3 +76,10 @@
     regexp: '^(PATH=")(.*)"$'
     line: '\1\2:{{ cuda_bin_path }}'
   become: yes
+
+# Hold the specified version of the CUDA Toolkit to prevent automatic updates
+- name: Hold the specified version of the CUDA Toolkit package
+  apt:
+    name: "{{ cuda_package_name }}"
+    state: hold
+  become: yes
