@@ -17,7 +17,7 @@
         name: cuda*
         state: absent
         purge: yes
-      when: cuda_12_4_installed.failed
+      when: not cuda_12_4_installed.rc == 0
   become: yes
 
 # Installation block for CUDA 12.4 Toolkit, ensuring the system has the required version
@@ -30,9 +30,23 @@
         dest: "/tmp/cuda-keyring_1.1-1_all.deb"
 
     # Install the downloaded CUDA keyring package
-    - name: Install CUDA Keyring
-      apt:
-        deb: "/tmp/cuda-keyring_1.1-1_all.deb"
+    - name: Check for existing CUDA keyring
+      stat:
+        path: /usr/share/keyrings/cuda-archive-keyring.gpg
+      register: cuda_keyring_stat
+  
+    - name: Download and add the CUDA keyring
+      block:
+        - name: Download CUDA Keyring
+          get_url:
+            url: https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/cuda-keyring_1.1-1_all.deb
+            dest: "/tmp/cuda-keyring_1.1-1_all.deb"
+        
+        - name: Install CUDA Keyring
+          apt:
+            deb: "/tmp/cuda-keyring_1.1-1_all.deb"
+      when: not cuda_keyring_stat.stat.exists
+      become: yes
 
     # Update the APT package cache to recognize new repositories
     - name: Update APT repository cache
