@@ -1,39 +1,23 @@
 # main.yml Under role_configure_cuda
-# This role checks existing version of cuda and removes if not matching desired version
+# This role checks for the correct version of cuda and removes if not matching desired version
 # role then installs correct version of cuda
-
-# # Check the currently installed version of CUDA using the nvcc command
-# - name: Check current CUDA version
-#   command: nvcc --version
-#   register: cuda_version_check
-#   ignore_errors: yes
-#   environment:
-#     PATH: "/usr/local/cuda-12.4/bin:{{ ansible_env.PATH }}"
-
-# # Prompt the user for confirmation to remove existing CUDA versions if the detected version is not 12+
-# - name: Prompt for CUDA removal if not version 12+
-#   pause:
-#     prompt: >
-#       Existing installation of CUDA detected as version {{ cuda_version_check.stdout | regex_search('release (\\d+\\.\\d+)', '\\1') | first }}.
-#       Required version is 12.x.
-#       Proceed with deleting existing version? (y/n)
-#   when: cuda_version_check.rc == 0 and "release 12" not in cuda_version_check.stdout
-#   register: cuda_removal_confirmation
 
 # if desrired end state of Cuda 12.4 is false, assert any other cuda installations are purged
 - name: Remove any existing CUDA versions if CUDA 12.4 is not present
   block:
     - name: Check if CUDA Toolkit 12.4 is installed
-      command: dpkg -l | grep cuda-toolkit-12-4
-      register: cuda_check
-      ignore_errors: yes
+      shell: dpkg -l | grep cuda-toolkit-12-4
+      register: cuda_12_4_installed
+      failed_when: cuda_12_4_installed.rc != 0
+      ignore_errors: true
       changed_when: false
       
     - name: Purge existing CUDA installations
       apt:
         name: cuda*
         state: absent
-      when: cuda_check.rc != 0
+        purge: yes
+      when: cuda_12_4_installed.failed
   become: yes
 
 # Installation block for CUDA 12.4 Toolkit, ensuring the system has the required version
