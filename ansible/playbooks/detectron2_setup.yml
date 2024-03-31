@@ -39,3 +39,7 @@
 - name: Configure Pytorch for Detectron2
   include_role:
     name: role_configure_pytorch
+
+- name: Configure opencv for Detectron2
+  include_role:
+    name: role_configure_opencv    
