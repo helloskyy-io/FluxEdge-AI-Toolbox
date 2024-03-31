@@ -6,10 +6,10 @@
 # These variables will be used throughout this role to ensure the correct version of CUDA is managed.
 - name: Define CUDA version-specific variables
   set_fact:
-    cuda_package_name: "cuda-toolkit-{{ cuda_version }}"  # Dynamic package name for the desired CUDA version.
-    cuda_keyring_path: "/usr/share/keyrings/cuda-archive-keyring.gpg"  # Path to the CUDA keyring file.
-    cuda_repo_deb_url: "https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/cuda-keyring_1.1-1_all.deb"  # URL for downloading the CUDA keyring.
-    cuda_bin_path: "/usr/local/cuda-{{ cuda_version }}/bin"  # CUDA binary path, dependent on version.
+    cuda_package_name: "cuda-toolkit-{{ cuda_version | replace('.', '-') }}"  # Format version with dash
+    cuda_keyring_path: "/usr/share/keyrings/cuda-archive-keyring.gpg"
+    cuda_repo_deb_url: "https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/cuda-keyring_1.1-1_all.deb"
+    cuda_bin_path: "/usr/local/cuda-{{ cuda_version }}/bin"  # The CUDA bin path generally uses the version with a dot.
   tags: always
 
 # Check if the specified version of the CUDA Toolkit is already installed to avoid unnecessary operations.
