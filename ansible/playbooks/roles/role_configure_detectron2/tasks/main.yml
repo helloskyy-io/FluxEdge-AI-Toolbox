@@ -1,0 +1,6 @@
+
+- name: Install Detectron2 from GitHub
+  pip:
+    name: 'git+https://github.com/facebookresearch/detectron2.git'
+    state: latest
+    extra_args: '--upgrade'
