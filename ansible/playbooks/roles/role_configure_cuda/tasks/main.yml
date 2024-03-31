@@ -1,3 +1,7 @@
+# main.yml Under role_configure_cuda
+# This role checks existing version of cuda and removes if not matching desired version
+# role then installs correct version of cuda
+
 - name: Check current CUDA version
   command: nvcc --version
   register: cuda_version_check
