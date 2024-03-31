@@ -25,6 +25,11 @@
 
 #### from this point down, specific dependancies or versions of packages required by Detectron2 are installed as roles
 
+- name: Configure Jupyter Notebooks webserver and start it
+  include_role:
+    name: role_configure_jupyter
+
+
 - name: Ensure CUDA 12.4 is installed for Detectron2
   include_role:
     name: role_configure_cuda
