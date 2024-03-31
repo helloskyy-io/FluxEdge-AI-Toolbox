@@ -45,6 +45,10 @@
   include_role:
     name: role_configure_opencv    
 
+- name: Configure cython for Detectron2
+  include_role:
+    name: role_configure_cython        
+
 - name: Configure pycoco tools for Detectron2
   include_role:
     name: role_configure_pycoco        
