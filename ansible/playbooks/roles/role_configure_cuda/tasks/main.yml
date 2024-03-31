@@ -2,6 +2,13 @@
 # This role checks existing version of cuda and removes if not matching desired version
 # role then installs correct version of cuda
 
+# temporarily add cuda to PATH or the command to check if cuda is installed may not work
+# even if cuda is already installed! (this keeps the code from being idempotant)
+- name: Temporarily update PATH for Ansible tasks
+  set_fact:
+    ansible_env:
+      PATH: "/usr/local/cuda-12.4/bin:{{ ansible_env.PATH }}"
+
 # Check the currently installed version of CUDA using the nvcc command
 - name: Check current CUDA version
   command: nvcc --version
@@ -52,4 +59,13 @@
       apt:
         name: cuda-toolkit-12-4
         state: present
+
+    # Add cuda to PATH to allow cuda commands to be called
+    - name: Ensure CUDA bin directory is in PATH
+      lineinfile:
+        path: /etc/environment
+        state: present
+        backrefs: yes
+        regexp: '^(PATH=")(.*)"$'
+        line: '\1\2:/usr/local/cuda-12.4/bin'
   become: yes
