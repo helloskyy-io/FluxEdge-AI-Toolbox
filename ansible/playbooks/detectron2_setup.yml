@@ -17,8 +17,8 @@
   apt:
     name:
       - python3-pip  # Install pip for Python 3
-      - git         # Example utility
-      - curl        # Another example utility
+      - nano         # Install nano 
+      - wget         # Install wget to pull datasets
     state: latest  # Ensures the latest version is installed
   become: yes
 
