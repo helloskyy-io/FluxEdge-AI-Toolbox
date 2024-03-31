@@ -1,7 +1,9 @@
-- name: Collecting bricks from yard
-  debug:
-    msg: "Collecting bricks from yard..."
+# detectron2_setup.yml Playbook
+# This playbook calls roles as necessary to configure the packages and dependencies
+# necessary to create a base container environment for the Detectron2 conputer Vision AI framework.
 
-- name: Now throwing bricks at Davey
-  debug:
-    msg: "Now throwing bricks at Davey..."
+- hosts: localhost
+  roles:
+    - role: role_configure_cuda
+      vars:
+        cuda_version: "12.4"

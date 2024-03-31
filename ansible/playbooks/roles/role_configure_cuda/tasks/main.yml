@@ -1,0 +1,42 @@
+- name: Check current CUDA version
+  command: nvcc --version
+  register: cuda_version_check
+  ignore_errors: yes
+
+- name: Prompt for CUDA removal if not version 12+
+  pause:
+    prompt: >
+      Existing installation of CUDA detected as version {{ cuda_version_check.stdout | regex_search('release (\\d+\\.\\d+)', '\\1') | first }}.
+      Required version is 12.x.
+      Proceed with deleting existing version? (y/n)
+  when: cuda_version_check.rc == 0 and "release 12" not in cuda_version_check.stdout
+  register: cuda_removal_confirmation
+
+- name: Remove existing CUDA versions
+  apt:
+    name: cuda*
+    state: absent
+  when: cuda_removal_confirmation.user_input | lower == 'y'
+  become: yes
+
+ - name: Install CUDA 12.4 Toolkit
+  block:
+    - name: Download CUDA Keyring
+      get_url:
+        url: https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/cuda-keyring_1.1-1_all.deb
+        dest: "/tmp/cuda-keyring_1.1-1_all.deb"
+
+    - name: Install CUDA Keyring
+      apt:
+        deb: "/tmp/cuda-keyring_1.1-1_all.deb"
+
+    - name: Update APT repository cache
+      apt:
+        update_cache: yes
+
+    - name: Install CUDA Toolkit 12.4
+      apt:
+        name: cuda-toolkit-12-4
+        state: present
+  become: yes
+  when: cuda_removal_confirmation.user_input | lower == 'y' or cuda_version_check.rc != 0 
