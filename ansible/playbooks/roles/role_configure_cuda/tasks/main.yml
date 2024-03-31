@@ -79,7 +79,7 @@
 
 # Hold the specified version of the CUDA Toolkit to prevent automatic updates
 - name: Hold the specified version of the CUDA Toolkit package
-  apt:
+  ansible.builtin.dpkg_selections:
     name: "{{ cuda_package_name }}"
-    state: hold
+    selection: hold
   become: yes
