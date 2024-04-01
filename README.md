@@ -34,8 +34,17 @@ Ensure you've met the following prerequisites:
 
 ### Initial Setup
 
-Copy/paste the following commands into the FluxEdge GUI terminal:
+Copy/paste the following commands into the FluxEdge GUI terminal and follow the prompts:
 
 ```bash
 apt install curl -y
 bash <(curl -s https://raw.githubusercontent.com/helloskyy-io/FluxEdge-AI-Toolbox/main/bash/AI_toolbox.sh)
+```
+
+### Relaunching the AI Toolbox
+
+After the initial run of FluxEdge AI Toolbox, you can relaunch the Ansible menu with the below command:
+
+```bash
+ansible-playbook -i localhost, -c local /FluxEdge_AI_Toolbox/ansible/playbooks/AI_Toolbox.yml
+```
