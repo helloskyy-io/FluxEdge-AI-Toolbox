@@ -1,16 +1,9 @@
 # main.yml for role_configure_jupyter
-# This role installs Jupyter Notebooks web server and starts it
+# This role installs Jupyter Notebooks web server 
+# the handler restarts the webserver only if the install occurs (making it idempotant)
 
 - name: Install Jupyter Notebook
   pip:
     name: notebook
     state: latest
-
-- name: Kill any existing Jupyter Notebook processes
-  ansible.builtin.shell: pkill -f "jupyter-notebook"
-  ignore_errors: true
-
-- name: Start Jupyter Notebook
-  ansible.builtin.shell: |
-    nohup jupyter notebook --ip=0.0.0.0 --allow-root --no-browser > /var/log/jupyter.log 2>&1 &
-  become: yes
+  notify: restart jupyter notebook
