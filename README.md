@@ -1,35 +1,41 @@
-<main>
-	<img src="frame_002.jpg" alt="Logo">	
+![Logo](frame_002.jpg)
 
-<p>The purpose of Hello Skyy is To provide a central hub, on decentralized infrastructure, to educate, document, and assemble the information, tools, and collaborative development space needed, as we explore an alternative to the crippling control over people that big tech companies employ as a lucrative business model. We want to offer an alternative to big tech, and teach people how to choose freedom and privacy over convenience by exploring web3, blockchain, decentralization, and open source technologies.</p>
+# Welcome to Hello Skyy
 
-<p>learn more at:</p>
-<h3><a href="https://web.helloskyy.io">helloskyy.io</a></h3>
-<p>join the discord:</p>
-<h3><a href="https://discord.io/techdufus">https://discord.io/techdufus</a></h3>
+The purpose of **Hello Skyy** is to provide a central hub on decentralized infrastructure. We aim to educate, document, and assemble the information, tools, and collaborative development space needed as we explore alternatives to the control exerted by big tech companies. We advocate for freedom and privacy over convenience through the exploration of web3, blockchain, decentralization, and open-source technologies.
 
-<h1>FluxEdge AI Toolbox.</h1>
+- [Learn more about us](https://web.helloskyy.io)
+- [Join our Discord](https://discord.io/techdufus)
 
-<p>FluxEdge AI Toolbox is designed to streamline the configuration of custom container environments on FluxEdge by providing an Ansible framework to automate the installation of required packages, dependencies, and general setups for various AI frameworks and models, with user requirements that go above and beyond the standard configuration offerings in the FluxEdge market place. Our aim is to enable users to rapidly reproduce custom work environments and allow data scientists to focus more on learning AI and less on grappling with complicated technical setups.</p>
+# FluxEdge AI Toolbox
 
-<p>The toolbox utilizes a bash script to install Ansible and adheres to the principles of "infrastructure as code." Accessed through FluxEdge's Terminal GUI, it prompts users to specify their desired environment based on their intended framework or model. Subsequently, it executes a series of Ansible "plays" to configure the necessary packages and dependencies. We encourage you use our prebuilt options as well as expand on this and or customize it to your individual needs.</p>
+The **FluxEdge AI Toolbox** streamlines the configuration of custom container environments on FluxEdge using an Ansible framework. This toolbox automates the setup for various AI frameworks and models, catering to advanced user requirements beyond the standard offerings in the FluxEdge marketplace.
 
-<p>These tools are freely available to the community for both private and public use. Feel free to use this as a framework to improve upon in your own deployment adventures. If you have changes to this framework that you feel would benefit the community as part of the "base" offering, please submit a pull request!</p>
+Our goal is to enable rapid reproduction of custom work environments, letting data scientists focus on learning AI rather than on technical setup complexities.
 
-<p>AI Toolbox assumes the following:</p>
+## Features
 
-<ol>
-  <li>you have created a project at FluxEdge</li>
-  <li>you are working in the GUI Terminal in the FluxEdge app</li>
-  <li>you have chosen the Ubuntu Custom option from the AI menu</li>
-</ol>
+- **Bash script installation** of Ansible, a user-friendly "Configuration as Code" tool using YAML.
+- **Terminal GUI access** through FluxEdge, prompting users for their desired AI environment setup.
+- **Execution of Ansible plays/tasks/roles** to configure necessary packages and dependencies.
+- **Rapid project deployment**, allowing the installation of a sample project for environment functionality testing and exploration.
 
-<p> To run AI Toolbox copy/past the following commands into the GUI terminal on FluxEdge, then follow the prompts.</p>
+## Community and Contributions
 
-<h3>apt install curl -y <h3>
-<h3>bash <(curl -s https://raw.githubusercontent.com/helloskyy-io/FluxEdge-AI-Toolbox/main/bash/AI_toolbox.sh)
-</h3>
+These tools are freely available for both private and public use. We encourage you to use this framework to enhance your deployment projects and welcome contributions that benefit the community.
 
-<p> - Puma <p>
+## Getting Started
 
-</main>
+Ensure you've met the following prerequisites:
+
+1. Created a project at FluxEdge.
+2. Are working in the GUI Terminal in the FluxEdge app.
+3. Have chosen the Ubuntu Custom option from the AI menu.
+
+### Initial Setup
+
+Copy/paste the following commands into the FluxEdge GUI terminal:
+
+```bash
+apt install curl -y
+bash <(curl -s https://raw.githubusercontent.com/helloskyy-io/FluxEdge-AI-Toolbox/main/bash/AI_toolbox.sh)
