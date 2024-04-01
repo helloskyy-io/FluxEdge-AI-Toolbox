@@ -1,0 +1,5 @@
+- name: restart jupyter notebook
+  ansible.builtin.shell: |
+    pkill -f "jupyter-notebook"
+    nohup jupyter notebook --ip=0.0.0.0 --allow-root --no-browser > /var/log/jupyter.log 2>&1 &
+  ignore_errors: true

@@ -30,7 +30,6 @@
   include_role:
     name: role_configure_jupyter
 
-
 - name: Configure CUDA 12.4 for Detectron2
   include_role:
     name: role_configure_cuda
