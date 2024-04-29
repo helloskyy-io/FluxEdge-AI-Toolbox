@@ -40,8 +40,8 @@
       block:
         - assert:
             that:
-              - option | int in [1, 3, 7]
-            msg: "Invalid option. Please choose a valid option (1, 3, or 7)."
+              - option | int in [1, 3, 4, 7]
+            msg: "Invalid option. Please choose a valid option (1, 3, 4, or 7)."
       
     # Process selected option
     - name: Process selected option
@@ -53,10 +53,13 @@
         # Add tasks or roles based on the selected option
         - include_tasks: detectron2_setup.yml
           when: option | int == 1
+
         - include_tasks: bricks.yml
           when: option | int == 3
-        - include_tasks: detectron2_notebooks.yml
+
+        - include_tasks: skyynet_setup.yml
           when: option | int == 4
+          
       when: option | int in [1, 3, 4]
 
     # Exit AI Toolbox
