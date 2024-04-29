@@ -46,5 +46,5 @@ bash <(curl -s https://raw.githubusercontent.com/helloskyy-io/FluxEdge-AI-Toolbo
 After the initial run of FluxEdge AI Toolbox, you can relaunch the Ansible menu with the below command:
 
 ```bash
-ansible-playbook -i localhost, -c local /FluxEdge_AI_Toolbox/ansible/playbooks/AI_Toolbox.yml
+ANSIBLE_CONFIG=/FluxEdge_AI_Toolbox/ansible/ansible.cfg ansible-playbook -i localhost, -c local /FluxEdge_AI_Toolbox/ansible/playbooks/AI_Toolbox.yml
 ```
