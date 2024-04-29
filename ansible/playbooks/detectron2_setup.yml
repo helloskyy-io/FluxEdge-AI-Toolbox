@@ -28,30 +28,30 @@
 
 - name: Configure Jupyter Notebooks webserver and start it
   include_role:
-    name: role_configure_jupyter
+    name: ../roles/role_configure_jupyter
 
 - name: Configure CUDA 12.4 for Detectron2
   include_role:
-    name: role_configure_cuda
+    name: ../roles/role_configure_cuda
   vars:
     cuda_version: "12.4"
   
 - name: Configure Pytorch for Detectron2
   include_role:
-    name: role_configure_pytorch
+    name: ../roles/role_configure_pytorch
 
 - name: Configure opencv for Detectron2
   include_role:
-    name: role_configure_opencv    
+    name: ../roles/role_configure_opencv    
 
 - name: Configure cython for Detectron2
   include_role:
-    name: role_configure_cython        
+    name: ../roles/role_configure_cython        
 
 - name: Configure pycoco tools for Detectron2
   include_role:
-    name: role_configure_pycoco    
+    name: ../roles/role_configure_pycoco    
 
 - name: Configure Detectron2
   include_role:
-    name: role_configure_detectron2            
+    name: ../roles/role_configure_detectron2            
