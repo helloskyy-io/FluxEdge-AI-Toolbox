@@ -14,5 +14,5 @@
     dest: "{{ destination_path }}"
     clone: yes
     update: yes  # This ensures the repo is pulled if it already exists
-    extra_args: "-c credential.helper="
+    # extra_args: "-c credential.helper="
   become: true
