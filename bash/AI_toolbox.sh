@@ -64,7 +64,6 @@ echo ""
 echo "Cloning FluxEdge-AI-Toolbox..."
 sleep 2
 git clone https://github.com/helloskyy-io/FluxEdge-AI-Toolbox.git /FluxEdge_AI_Toolbox
-git clone https://github.com/helloskyy-io/Skyy-Net.git /Skyy-Net
 
 # Display completion message
 echo ""
