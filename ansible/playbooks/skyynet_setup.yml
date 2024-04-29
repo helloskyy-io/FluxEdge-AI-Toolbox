@@ -1,7 +1,7 @@
 # /AI-Toolbox/ansible/playbooks/skyynet_setup.yml
 
 - name: Clone SkyyNet Repository
-  include role:
+  include_role:
     name: clone_repository
   vars:
     repository_url: "{{ skyy_net_url }}"
