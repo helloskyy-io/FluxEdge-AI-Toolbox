@@ -8,18 +8,11 @@
     state: present
   become: true
 
-- name: Check if Skyy-Net directory exists
-  ansible.builtin.stat:
-    path: /Skyy-Net
-  register: skyy_net_dir
-
-- name: Clone Skyy-Net repository using Bash script
-  ansible.builtin.shell: |
-    git clone {{ repository_url }} {{ destination_path }}
-  args:
-    executable: /bin/bash
-  vars:
+- name: Clone Skyy-Net repository
+  git:
     repo: "{{ repository_url }}"
     dest: "{{ destination_path }}"
+    clone: yes
+    update: yes  # This ensures the repo is pulled if it already exists
+    # extra_args: "-c credential.helper="
   become: true
-
