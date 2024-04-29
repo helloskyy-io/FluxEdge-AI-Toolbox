@@ -21,13 +21,13 @@
  
        Choose an environment deployment option:
        1. Configure FluxEdge container for Detectron2 Computer Vision Framework
-       2. Configure FluxEdge container for (XYZ Model/Future)
+       2. Future (Placeholder)
        3. Throw Bricks at Jefke
 
        Or Choose a project deployment option:
-       4. Import 'sample' Jupyter Notebooks for Detectron2
-       5. Import 'sample' Jupyter Notebooks for (XYZ Model/Future)
-       6. Import SkyyMed community driven medical imaging conputer vision project (for Detectron2 environment) 
+       4. Import SkyyNet AI for SkyyMed medical imaging applicaiton (uses Detectron2 environment)
+       5. Import SkyyMed medical imaging conputer vision project (for Detectron2 environment)
+       6. Future (placeholder) 
 
        Exit AI Toolbox:
        7. Exit AI Toolbox"

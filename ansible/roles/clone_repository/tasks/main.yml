@@ -1,0 +1,17 @@
+---
+# tasks file for import_skyy_net
+
+# roles/import_skyy_net/tasks/main.yml
+- name: Ensure Git is installed
+  apt:
+    name: git
+    state: present
+  become: true
+
+- name: Clone Skyy-Net repository
+  git:
+    repo: "{{ repository_url }}"
+    dest: "{{ destination_path }}"
+    clone: yes
+    update: yes  # This ensures the repo is pulled if it already exists
+  become: true
