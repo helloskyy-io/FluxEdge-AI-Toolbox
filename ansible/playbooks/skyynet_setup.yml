@@ -1,6 +1,6 @@
 # /AI-Toolbox/ansible/playbooks/skyynet_setup.yml
 
-- hosts: all
+- name: clone skyynet repository
   roles:
     - role: clone_repository
       vars:
