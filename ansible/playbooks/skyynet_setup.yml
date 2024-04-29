@@ -1,0 +1,8 @@
+# /AI-Toolbox/ansible/playbooks/skyynet_setup.yml
+
+- hosts: all
+  roles:
+    - role: clone_repository
+      vars:
+        repository_url: "{{ skyy_net_url }}"
+        destination_path: "{{ skyy_net_destination_path }}"

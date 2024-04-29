@@ -1,7 +1,0 @@
-- name: Collecting bricks from yard
-  debug:
-    msg: "Collecting bricks from yard..."
-
-- name: Now throwing bricks at Davey
-  debug:
-    msg: "Now throwing bricks at Davey..."
