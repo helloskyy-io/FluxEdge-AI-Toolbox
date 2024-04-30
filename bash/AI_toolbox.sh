@@ -86,4 +86,4 @@ echo ""
 echo ""
 echo "Launching Ansible playbook..."
 sleep 2
-ansible-playbook -i inventories/localhost, -c local /FluxEdge_AI_Toolbox/ansible/playbooks/AI_Toolbox.yml
+ANSIBLE_CONFIG=/FluxEdge_AI_Toolbox/ansible/ansible.cfg ansible-playbook -i localhost, -c local /FluxEdge_AI_Toolbox/ansible/playbooks/AI_Toolbox.yml
