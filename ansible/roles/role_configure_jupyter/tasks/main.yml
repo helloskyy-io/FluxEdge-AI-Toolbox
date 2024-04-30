@@ -11,17 +11,10 @@
     state: latest
   become: true
 
-# - name: Check if Jupyter Notebook is running
-#   shell: pgrep -f "jupyter-notebook"
-#   register: jupyter_process
-#   ignore_errors: true
-#   changed_when: false  # Ensures this task does not report as 'changed'
-
 - name: Start Jupyter Notebook if not running
   shell: |
-    nohup jupyter notebook --ip=0.0.0.0 --port=8888 --allow-root --no-browser &> /var/log/jupyter.log &
+    nohup jupyter notebook --ip=0.0.0.0 --port=8888 --notebook-dir=/ --allow-root --no-browser &> /var/log/jupyter.log &
   async: 10
   poll: 0
-  # when: jupyter_process.rc != 0
   become: true
 
