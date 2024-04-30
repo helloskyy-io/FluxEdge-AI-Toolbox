@@ -18,6 +18,7 @@
   register: cuda_installed
   ignore_errors: true
   changed_when: false
+  failed_when: cuda_installed.rc == 0 and (cuda_package_name not in cuda_installed.stdout)
 
 # If the desired version of CUDA is not installed, purge existing CUDA installations to avoid conflicts.
 # This step ensures that only the specified version of CUDA is present on the system.
