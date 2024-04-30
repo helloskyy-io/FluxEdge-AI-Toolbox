@@ -11,11 +11,11 @@
     state: latest
   become: true
 
-- name: Check if Jupyter Notebook is running
-  shell: pgrep -f "jupyter-notebook"
-  register: jupyter_process
-  ignore_errors: true
-  changed_when: false  # Ensures this task does not report as 'changed'
+# - name: Check if Jupyter Notebook is running
+#   shell: pgrep -f "jupyter-notebook"
+#   register: jupyter_process
+#   ignore_errors: true
+#   changed_when: false  # Ensures this task does not report as 'changed'
 
 - name: Start Jupyter Notebook if not running
   shell: |
