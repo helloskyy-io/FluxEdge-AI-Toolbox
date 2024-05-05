@@ -49,7 +49,7 @@ echo ""
 echo ""
 echo "Installing Ansible..."
 sleep 2
-apt install -y ansible
+apt install -y ansible python3-apt
 
 # Install Git
 echo ""

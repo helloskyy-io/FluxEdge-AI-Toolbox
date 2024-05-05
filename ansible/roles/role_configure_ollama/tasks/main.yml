@@ -1,7 +1,22 @@
 ---
 # tasks file for role_configure_ollama
 
-- name: Install ollama
+- name: Download Ollama install script
+  ansible.builtin.get_url:
+    url: https://ollama.com/install.sh
+    dest: /tmp/install_ollama.sh
+    mode: '0755'
+  become: true
+
+- name: Execute Ollama install script
   ansible.builtin.shell:
-    cmd: curl -fsSL https://ollama.com/install.sh | sh
+    cmd: /tmp/install_ollama.sh
+  become: true
+  args:
+    removes: /tmp/install_ollama.sh  # This makes the command idempotent by removing the script post-execution
+
+- name: Remove Ollama install script
+  ansible.builtin.file:
+    path: /tmp/install_ollama.sh
+    state: absent
   become: true
