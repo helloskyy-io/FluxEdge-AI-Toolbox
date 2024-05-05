@@ -16,6 +16,7 @@
 - name: Install pip and other basic utilities
   apt:
     name:
+      - python3      # Install Python 3
       - python3-pip  # Install pip for Python 3
       - nano         # Install nano 
       - wget         # Install wget to pull datasets
