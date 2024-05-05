@@ -24,10 +24,11 @@
         state: directory
         mode: '0755'
     
-    - name: Add Docker's official GPG key
-      ansible.builtin.apt_key:
+    - name: Download Docker GPG key
+      ansible.builtin.get_url:
         url: https://download.docker.com/linux/ubuntu/gpg
-        keyring: /etc/apt/keyrings/docker.asc
+        dest: /etc/apt/trusted.gpg.d/docker.gpg
+        mode: '0644'
     
     - name: Add Docker repository
       ansible.builtin.apt_repository:
@@ -54,9 +55,13 @@
         msg: "An error occurred, but we are skipping it and continuing with the next tasks."
       ignore_errors: true
 
-- name: Add root to the docker group (optional)
+- name: Ensure Docker group exists
+  ansible.builtin.group:
+    name: docker
+    state: present
+
+- name: Add root to the docker group
   ansible.builtin.user:
     name: "root"
     groups: docker
     append: yes
-  ignore_errors: true
