@@ -1,63 +1,62 @@
 
 # tasks file for role_configure_docker
 
-- name: Install Docker on Ubuntu as Root
-  hosts: all
-  tasks:
-    - name: Update the apt cache
+# tasks file for role_configure_docker
+
+- name: Update the apt cache
+  ansible.builtin.apt:
+    update_cache: yes
+  ignore_errors: true
+
+- name: Install required packages
+  ansible.builtin.apt:
+    name: 
+      - ca-certificates
+      - curl
+      - gnupg
+    state: present
+  ignore_errors: true
+
+- block:
+    - name: Ensure the APT keyring directory exists
+      ansible.builtin.file:
+        path: /etc/apt/keyrings
+        state: directory
+        mode: '0755'
+    
+    - name: Add Docker's official GPG key
+      ansible.builtin.apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        keyring: /etc/apt/keyrings/docker.asc
+    
+    - name: Add Docker repository
+      ansible.builtin.apt_repository:
+        repo: "deb [arch={{ ansible_architecture }} signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release | lower }} stable"
+        filename: 'docker'
+    
+    - name: Update apt cache after adding Docker repository
       ansible.builtin.apt:
         update_cache: yes
-      ignore_errors: true
 
-    - name: Install required packages
+    - name: Install Docker and its components
       ansible.builtin.apt:
-        name: 
-          - ca-certificates
-          - curl
-          - gnupg
+        name:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+          - docker-buildx-plugin
+          - docker-compose-plugin
         state: present
+
+  rescue:
+    - name: Error Handling Block
+      debug:
+        msg: "An error occurred, but we are skipping it and continuing with the next tasks."
       ignore_errors: true
 
-    - block:
-        - name: Ensure the APT keyring directory exists
-          ansible.builtin.file:
-            path: /etc/apt/keyrings
-            state: directory
-            mode: '0755'
-        
-        - name: Add Docker's official GPG key
-          ansible.builtin.apt_key:
-            url: https://download.docker.com/linux/ubuntu/gpg
-            keyring: /etc/apt/keyrings/docker.asc
-        
-        - name: Add Docker repository
-          ansible.builtin.apt_repository:
-            repo: "deb [arch={{ ansible_architecture }} signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release | lower }} stable"
-            filename: 'docker'
-        
-        - name: Update apt cache after adding Docker repository
-          ansible.builtin.apt:
-            update_cache: yes
-
-        - name: Install Docker and its components
-          ansible.builtin.apt:
-            name:
-              - docker-ce
-              - docker-ce-cli
-              - containerd.io
-              - docker-buildx-plugin
-              - docker-compose-plugin
-            state: present
-
-      rescue:
-        - name: Error Handling Block
-          debug:
-            msg: "An error occurred, but we are skipping it and continuing with the next tasks."
-          ignore_errors: true
-
-    - name: Add root to the docker group (optional)
-      ansible.builtin.user:
-        name: "root"
-        groups: docker
-        append: yes
-      ignore_errors: true
+- name: Add root to the docker group (optional)
+  ansible.builtin.user:
+    name: "root"
+    groups: docker
+    append: yes
+  ignore_errors: true
