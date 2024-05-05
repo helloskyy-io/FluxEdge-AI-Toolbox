@@ -26,32 +26,30 @@
 
 #### from this point down, specific dependancies or versions of packages required by Detectron2 are installed as roles
 
-- name: Configure Jupyter Notebooks webserver and start it
+- name: Configure ollama
   include_role:
-    name: role_configure_jupyter
+    name: role_configure_ollama
 
-- name: Configure CUDA 12.4 for Detectron2
+- name: Configure Docker
   include_role:
-    name: role_configure_cuda
-  vars:
-    cuda_version: "12.4"
+    name: role_configure_docker
   
-- name: Configure Pytorch for Detectron2
+- name: Configure Open Web UI
   include_role:
-    name: role_configure_pytorch
+    name: role_configure_open_ui
 
-- name: Configure opencv for Detectron2
-  include_role:
-    name: role_configure_opencv    
+# - name: Configure opencv for Detectron2
+#   include_role:
+#     name: role_configure_opencv    
 
-- name: Configure cython for Detectron2
-  include_role:
-    name: role_configure_cython        
+# - name: Configure cython for Detectron2
+#   include_role:
+#     name: role_configure_cython        
 
-- name: Configure pycoco tools for Detectron2
-  include_role:
-    name: role_configure_pycoco    
+# - name: Configure pycoco tools for Detectron2
+#   include_role:
+#     name: role_configure_pycoco    
 
-- name: Configure Detectron2
-  include_role:
-    name: role_configure_detectron2            
+# - name: Configure Detectron2
+#   include_role:
+#     name: role_configure_detectron2            
