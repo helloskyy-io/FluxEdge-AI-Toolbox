@@ -45,6 +45,12 @@
           - docker-compose-plugin
         state: present
 
+    - name: Install Docker Python SDK
+      ansible.builtin.pip:
+        name: docker
+        state: present
+      become: true
+
   rescue:
     - name: Error Handling Block
       debug:
