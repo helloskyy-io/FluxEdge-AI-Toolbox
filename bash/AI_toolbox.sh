@@ -42,7 +42,7 @@ echo ""
 echo ""
 echo "Upgrading installed packages..."
 sleep 2
-apt upgrade -y
+apt upgrade -y --no-onstall-recommends
 
 # Install Ansible
 echo ""
