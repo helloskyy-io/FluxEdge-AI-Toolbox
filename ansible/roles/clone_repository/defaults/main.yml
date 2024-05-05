@@ -2,5 +2,5 @@
 # defaults file for import_skyy_net
 
 # roles/import_skyy_net/defaults/main.yml
-skyy_net_url: "https://github.com/helloskyy-io/Skyy-Net.git"
-skyy_net_destination_path: "/Skyy-Net"
+skyy_net_url: "https://github.com/helloskyy-io/Skyy-Med-AI.git"
+skyy_net_destination_path: "/Skyy-Med-AI"
