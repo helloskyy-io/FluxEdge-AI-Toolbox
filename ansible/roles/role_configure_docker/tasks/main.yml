@@ -29,6 +29,10 @@
         filename: 'docker'
         update_cache: yes
 
+    - name: Update apt cache just before Docker installation
+      ansible.builtin.apt:
+        update_cache: yes
+
     - name: Install Docker and its components
       ansible.builtin.apt:
         name:
