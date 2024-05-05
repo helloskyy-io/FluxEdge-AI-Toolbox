@@ -19,17 +19,23 @@
  
        built by pumapumapumas @ Hello Skyy
  
-       Choose an environment deployment option:
-       1. Configure FluxEdge container for Detectron2 Computer Vision Framework
-       2. Future (Placeholder)
+       
+       Choose an environment deployment option: (this will configure the container environment)
+
+       1. Configure FluxEdge container for Skyy-Net multi model Framework
+       2. Configure FluxEdge container for Detectron2 Computer Vision Framework
        3. Throw Bricks at Jefke
 
-       Or Choose a project deployment option:
-       4. Import SkyyNet AI for SkyyMed medical imaging applicaiton (uses Detectron2 environment)
-       5. Import SkyyMed medical imaging conputer vision project (for Detectron2 environment)
+       
+       Or Choose a project deployment option: (requires above environments)
+       
+       4. Import Skyy-Net AI framework (uses Skyy-Net environment)
+       5. Import Skyy-Med AI for SkyyMed medical imaging applicaiton (uses Detectron2 environment)
        6. Future (placeholder) 
 
+       
        Exit AI Toolbox:
+       
        7. Exit AI Toolbox"
 
     private: no
@@ -40,8 +46,8 @@
       block:
         - assert:
             that:
-              - option | int in [1, 3, 4, 7]
-            msg: "Invalid option. Please choose a valid option (1, 3, 4, or 7)."
+              - option | int in [1, 2, 3, 4, 5, 6, 7]
+            msg: "Invalid option. Please choose a valid option (1, 2, 3, 4, 5, 6, or 7)."
       
     # Process selected option
     - name: Process selected option
@@ -51,16 +57,26 @@
             msg: "You selected option {{ option }}"
             
         # Add tasks or roles based on the selected option
-        - include_tasks: detectron2_setup.yml
+        - include_tasks: environment_skyynet.yml
           when: option | int == 1
+        
+        - include_tasks: environment_detectron2.yml
+          when: option | int == 2
 
         - include_tasks: bricks.yml
           when: option | int == 3
 
-        - include_tasks: skyynet_setup.yml
+        - include_tasks: setup_skyynet.yml
           when: option | int == 4
+
+        - include_tasks: setup_detectron2.yml
+          when: option | int == 2  
+
+        - debug:
+            msg: "Placeholder for future features."
+          when: option | int == 6  
           
-      when: option | int in [1, 3, 4]
+      when: option | int in [1, 2, 3, 4, 5, 6]
 
     # Exit AI Toolbox
     - name: Exit AI Toolbox

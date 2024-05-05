@@ -1,6 +1,6 @@
-# /AI-Toolbox/ansible/playbooks/skyynet_setup.yml
+# /AI-Toolbox/ansible/playbooks/setup_skyymed_ai.yml
 
-- name: Clone SkyyNet Repository
+- name: Clone SkyyMed AI Repository
   include_role:
     name: clone_repository
   vars:

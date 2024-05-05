@@ -1,4 +1,4 @@
-# detectron2_setup.yml Playbook
+# environment_skyynet.yml Playbook
 # This playbook calls roles as necessary to configure the packages and dependencies
 # necessary to create a base container environment for the Detectron2 conputer Vision AI framework.
 

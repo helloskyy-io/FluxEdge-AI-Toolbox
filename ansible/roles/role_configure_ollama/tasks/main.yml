@@ -1,0 +1,7 @@
+---
+# tasks file for role_configure_ollama
+
+- name: Install ollama
+  ansible.builtin.shell:
+    cmd: curl -fsSL https://ollama.com/install.sh | sh
+  become: true
