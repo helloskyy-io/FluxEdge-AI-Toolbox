@@ -3,7 +3,7 @@
 
 - name: AI Toolbox Playbook
   hosts: localhost
-  gather_facts: no
+  gather_facts: yes
   
   # Prompt the user to select an option
   vars_prompt:
