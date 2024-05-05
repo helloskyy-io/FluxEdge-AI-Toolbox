@@ -1,4 +1,4 @@
----
+
 # tasks file for role_configure_docker
 
 - name: Install Docker on Ubuntu as Root
