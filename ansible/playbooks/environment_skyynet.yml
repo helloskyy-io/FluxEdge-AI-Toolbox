@@ -30,14 +30,16 @@
 - name: Configure ollama
   include_role:
     name: role_configure_ollama
+  vars:
+    ai_models_to_add: "{{ skyy_net_ai_models }}"
 
-- name: Configure Docker
-  include_role:
-    name: role_configure_docker
+# - name: Configure Docker
+#   include_role:
+#     name: role_configure_docker
   
-- name: Configure Open Web UI
-  include_role:
-    name: role_configure_open_ui
+# - name: Configure Open Web UI
+#   include_role:
+#     name: role_configure_open_ui
 
 # - name: Configure opencv for Detectron2
 #   include_role:

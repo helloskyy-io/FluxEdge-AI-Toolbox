@@ -19,11 +19,19 @@
   ignore_errors: true
 
 - block:
+    - name: Check if Docker GPG key is already added
+      ansible.builtin.stat:
+        path: /usr/share/keyrings/docker-archive-keyring.gpg
+      register: docker_gpg_key
+      failed_when: false  # This tells Ansible that this task never fails
+
     - name: Download and add Docker GPG key
       ansible.builtin.shell:
         cmd: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
       args:
         executable: /bin/bash
+      when: not docker_gpg_key.stat.exists
+      warn: false  # This disables warnings for this task
 
     - name: Add Docker repository
       ansible.builtin.apt_repository:

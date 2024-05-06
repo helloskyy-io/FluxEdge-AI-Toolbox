@@ -1,2 +1,9 @@
 ---
 # defaults file for role_configure_ollama
+
+# list of AI models to load based on use case
+skyy_net_ai_models:
+    - "llama3:8b"
+    - "gemma"
+    - "codegemma"
+
