@@ -37,7 +37,7 @@ Ensure you've met the following prerequisites:
 Copy/paste the following commands into the FluxEdge GUI terminal and follow the prompts:
 
 ```bash
-apt install curl -y
+apt update && apt install curl -y
 bash <(curl -s https://raw.githubusercontent.com/helloskyy-io/FluxEdge-AI-Toolbox/main/bash/AI_toolbox.sh)
 ```
 
