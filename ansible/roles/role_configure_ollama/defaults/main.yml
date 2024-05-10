@@ -3,7 +3,7 @@
 
 # list of AI models to load based on use case
 skyy_net_ai_models:
-    - "llama2:7b"
+    # - "llama2:7b"
     - "gemma"
     - "codegemma"
 
