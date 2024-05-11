@@ -21,9 +21,6 @@
     state: absent
   become: true
 
-curl -L https://ollama.com/download/ollama-linux-amd64 -o /usr/bin/ollama
-chmod +x /usr/bin/ollama
-
 - name: Add AI Models to ollama
   ansible.builtin.shell:
     cmd: "ollama pull {{ item }}"
