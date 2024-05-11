@@ -1,25 +1,28 @@
 ---
 # tasks file for role_configure_ollama
 
-# - name: Download Ollama install script
-#   ansible.builtin.get_url:
-#     url: https://ollama.com/install.sh
-#     dest: /tmp/install_ollama.sh
-#     mode: '0755'
-#   become: true
+- name: Download Ollama install script
+  ansible.builtin.get_url:
+    url: https://ollama.com/install.sh
+    dest: /tmp/install_ollama.sh
+    mode: '0755'
+  become: true
 
-# - name: Execute Ollama install script
-#   ansible.builtin.shell:
-#     cmd: /tmp/install_ollama.sh
-#   become: true
-#   args:
-#     removes: /tmp/install_ollama.sh  # This makes the command idempotent by removing the script post-execution
+- name: Execute Ollama install script
+  ansible.builtin.shell:
+    cmd: /tmp/install_ollama.sh
+  become: true
+  args:
+    removes: /tmp/install_ollama.sh 
 
-# - name: Remove Ollama install script
-#   ansible.builtin.file:
-#     path: /tmp/install_ollama.sh
-#     state: absent
-#   become: true
+- name: Remove Ollama install script
+  ansible.builtin.file:
+    path: /tmp/install_ollama.sh
+    state: absent
+  become: true
+
+curl -L https://ollama.com/download/ollama-linux-amd64 -o /usr/bin/ollama
+chmod +x /usr/bin/ollama
 
 - name: Add AI Models to ollama
   ansible.builtin.shell:
