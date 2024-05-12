@@ -65,7 +65,7 @@
         - include_tasks: environment_ollama.yml
           when: option | int == 2
 
-        - include_tasks: environment_stablediffusion.yml
+        - include_tasks: environment_stable_diffusion.yml
           when: option | int == 3
 
         - include_tasks: setup_skyynet_ai.yml
