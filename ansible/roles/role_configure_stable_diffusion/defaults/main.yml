@@ -1,0 +1,4 @@
+---
+# defaults file for role_configure_stable_diffusion
+
+sd_install_path: "/home/{{ sd_user }}/stable_diffusion"

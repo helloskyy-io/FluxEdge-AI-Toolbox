@@ -1,0 +1,33 @@
+---
+# tasks file for role_configure_stable_diffusion
+
+- name: Ensure installation directory exists
+  file:
+    path: "{{ sd_install_path }}"
+    state: directory
+    owner: "{{ user }}"
+    group: "{{ user }}"
+    mode: '0755'
+
+- name: Download Stable Diffusion webui.sh
+  get_url:
+    url: https://raw.githubusercontent.com/AUTOMATIC1111/stable-diffusion-webui/master/webui.sh
+    dest: "{{ sd_install_path }}/webui.sh"
+    mode: '0755'
+    owner: "{{ user }}"
+    group: "{{ user }}"
+
+- name: Make webui.sh executable
+  file:
+    path: "{{ sd_install_path }}/webui.sh"
+    mode: '0755'
+
+- name: Run webui.sh
+  command: "{{ sd_install_path }}/webui.sh --listen --api"
+  async: 0
+  poll: 0
+  register: webui_process
+  become: true
+  become_user: "{{ user }}"
+  environment:
+    PATH: "{{ ansible_env.PATH }}:/usr/local/bin"

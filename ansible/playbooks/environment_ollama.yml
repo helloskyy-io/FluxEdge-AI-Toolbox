@@ -34,26 +34,4 @@
   vars:
     ai_models_to_add: "{{ default_models }}"
 
-# - name: Configure Docker
-#   include_role:
-#     name: role_configure_docker
-  
-# - name: Configure Open Web UI
-#   include_role:
-#     name: role_configure_open_ui
-
-# - name: Configure opencv for Detectron2
-#   include_role:
-#     name: role_configure_opencv    
-
-# - name: Configure cython for Detectron2
-#   include_role:
-#     name: role_configure_cython        
-
-# - name: Configure pycoco tools for Detectron2
-#   include_role:
-#     name: role_configure_pycoco    
-
-# - name: Configure Detectron2
-#   include_role:
-#     name: role_configure_detectron2            
+          
