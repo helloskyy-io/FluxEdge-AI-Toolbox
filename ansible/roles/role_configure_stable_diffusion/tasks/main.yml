@@ -22,8 +22,8 @@
     path: "{{ sd_install_path }}/webui.sh"
     mode: '0755'
 
-- name: Run webui.sh
-  command: "{{ sd_install_path }}/webui.sh --listen --api"
+- name: Run webui.sh within a login shell
+  command: /bin/bash -lc "{{ sd_install_path }}/webui.sh --listen --api"
   async: 0
   poll: 0
   register: webui_process
