@@ -2,6 +2,7 @@
 # tasks file for role_configure_pyenv
 
 - name: Install dependencies for pyenv
+  become: yes  # runs as root
   apt:
     name:
       - make
@@ -21,28 +22,32 @@
       - libxmlsec1-dev
       - libffi-dev
       - liblzma-dev
-  become: yes
   when: ansible_os_family == 'Debian' 
 
-- name: Install pyenv
-  git:
-    repo: 'https://github.com/pyenv/pyenv.git'
-    dest: "~/.pyenv"
-    version: master
+- name: Install and configure pyenv
+  become: yes
+  become_user: "{{ user }}"  #user name passed in vars (references global vars)
+  block:
+  
+    - name: Install pyenv
+      git:
+        repo: 'https://github.com/pyenv/pyenv.git'
+        dest: "~/.pyenv"
+        version: master
 
-- name: Set environment variables for pyenv in bashrc
-  lineinfile:
-    path: "~/.bashrc"
-    line: "{{ item }}"
-  with_items:
-    - 'export PATH="$HOME/.pyenv/bin:$PATH"'
-    - 'eval "$(pyenv init --path)"'
-    - 'eval "$(pyenv virtualenv-init -)"'     
+    - name: Set environment variables for pyenv in bashrc
+      lineinfile:
+        path: "~/.bashrc"
+        line: "{{ item }}"
+      with_items:
+        - 'export PATH="$HOME/.pyenv/bin:$PATH"'
+        - 'eval "$(pyenv init --path)"'
+        - 'eval "$(pyenv virtualenv-init -)"'     
 
-- name: Install specific version of Python using pyenv
-  shell: "~/.pyenv/bin/pyenv install {{ python_version }}"
-  when: configure_python
+    - name: Install specific version of Python using pyenv
+      shell: "~/.pyenv/bin/pyenv install {{ python_version }}"
+      when: configure_python
 
-- name: Set global Python version
-  shell: "~/.pyenv/bin/pyenv global {{ python_version }}"
-  when: configure_python and activate_env    
+    - name: Set global Python version
+      shell: "~/.pyenv/bin/pyenv global {{ python_version }}"
+      when: configure_python and activate_env    

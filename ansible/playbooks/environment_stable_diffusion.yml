@@ -37,21 +37,18 @@
     user_password: "{{ sd_password }}"
     add_to_sudoers: "{{ sd_sudoers }}"
 
-- name: Installations as new user
-  become: yes
-  become_user: "{{ sd_user }}"
-  block:
-    - name: Configure pyenv
-      include_role:
-        name: role_configure_pyenv
-      vars:
-        configure_python: true
-        python_version: "{{ 3.10.0 }}"  
-        activate_env: true
+- name: Configure pyenv
+  include_role:
+    name: role_configure_pyenv
+  vars:
+    user: "{{ sd_user }}"
+    configure_python: true
+    python_version: "{{ 3.10.0 }}"  
+    activate_env: true
 
-    - name: Install Stable Diffusion and 1111 UI
-      include_role:
-        name: role_configure_stable_diffusion
+- name: Install Stable Diffusion and 1111 UI
+  include_role:
+    name: role_configure_stable_diffusion
 
 
 
