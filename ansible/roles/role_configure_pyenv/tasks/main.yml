@@ -51,17 +51,23 @@
       failed_when: false
 
     - name: Install specific version of Python using pyenv
-      command: "~/.pyenv/bin/pyenv install {{ python_version }}"
+      command: /bin/bash -lc "~/.pyenv/bin/pyenv install {{ python_version }}"
       when: 
         - configure_python
         - python_version not in installed_python_versions.stdout_lines
-      register: pyenv_install
-      changed_when: "'Installed Python' in pyenv_install.stdout"
 
     - name: Set global Python version
-      command: "~/.pyenv/bin/pyenv global {{ python_version }}"
+      command: /bin/bash -lc "~/.pyenv/bin/pyenv global {{ python_version }}"
       when:
         - configure_python
         - activate_env
         - python_version in installed_python_versions.stdout_lines
-        
+
+    - name: Echo PATH and pyenv version
+      command: /bin/bash -lc "echo $PATH && ~/.pyenv/bin/pyenv --version"
+      register: pyenv_test
+      ignore_errors: yes
+
+    - name: Debug pyenv initialization
+      debug:
+        msg: "{{ pyenv_test.stdout_lines }}"
