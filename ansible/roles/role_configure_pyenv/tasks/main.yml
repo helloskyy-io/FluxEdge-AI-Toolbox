@@ -44,10 +44,24 @@
         - 'eval "$(pyenv init --path)"'
         - 'eval "$(pyenv virtualenv-init -)"'     
 
+    - name: Check if specific Python version is already installed
+      command: "~/.pyenv/bin/pyenv versions --bare"
+      register: installed_python_versions
+      changed_when: false
+      failed_when: false
+
     - name: Install specific version of Python using pyenv
-      shell: "~/.pyenv/bin/pyenv install {{ python_version }}"
-      when: configure_python
+      command: "~/.pyenv/bin/pyenv install {{ python_version }}"
+      when: 
+        - configure_python
+        - python_version not in installed_python_versions.stdout_lines
+      register: pyenv_install
+      changed_when: "'Installed Python' in pyenv_install.stdout"
 
     - name: Set global Python version
-      shell: "~/.pyenv/bin/pyenv global {{ python_version }}"
-      when: configure_python and activate_env    
+      command: "~/.pyenv/bin/pyenv global {{ python_version }}"
+      when:
+        - configure_python
+        - activate_env
+        - python_version in installed_python_versions.stdout_lines
+        
