@@ -26,7 +26,7 @@
 
 - name: Install and configure pyenv
   become: yes
-  become_user: "{{ user }}"  #user name passed in vars (references global vars)
+  become_user: "{{ user }}"  # user name passed in vars (references global vars)
   block:
   
     - name: Install pyenv
@@ -35,17 +35,24 @@
         dest: "~/.pyenv"
         version: master
 
+    - name: Install pyenv-virtualenv plugin
+      git:
+        repo: 'https://github.com/pyenv/pyenv-virtualenv.git'
+        dest: "~/.pyenv/plugins/pyenv-virtualenv"
+        version: master
+
     - name: Set environment variables for pyenv in bashrc
       lineinfile:
         path: "~/.bashrc"
         line: "{{ item }}"
       with_items:
-        - 'export PATH="$HOME/.pyenv/bin:$PATH"'
+        - 'export PYENV_ROOT="$HOME/.pyenv"'
+        - 'export PATH="$PYENV_ROOT/bin:$PYENV_ROOT/shims:$PATH"'
         - 'eval "$(pyenv init --path)"'
-        - 'eval "$(pyenv virtualenv-init -)"'     
+        - 'eval "$(pyenv virtualenv-init -)"'
 
     - name: Check if specific Python version is already installed
-      command: "~/.pyenv/bin/pyenv versions --bare"
+      command: /bin/bash -lc "~/.pyenv/bin/pyenv versions --bare"
       register: installed_python_versions
       changed_when: false
       failed_when: false
