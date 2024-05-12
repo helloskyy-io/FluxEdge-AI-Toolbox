@@ -1,9 +1,13 @@
 # AI_Toolbox.yml Playbook
 # This playbook allows users to select options for configuring the container environment.
 
-- name: AI Toolbox Playbook
+- name: FLux Edge AI Toolbox Playbook
   hosts: localhost
   gather_facts: yes
+  vars_files:
+    - ../vars/global.yml
+
+  
   
   # Prompt the user to select an option
   vars_prompt:
