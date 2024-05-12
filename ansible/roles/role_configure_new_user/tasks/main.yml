@@ -16,7 +16,7 @@
 
 - name: Grant sudo rights to the new user
   ansible.builtin.copy:
-    dest: "/etc/sudoers.d/aiuser"
-    content: "aiuser ALL=(ALL) NOPASSWD: ALL"
+    dest: "/etc/sudoers.d/{{ user_to_add }}"
+    content: "{{ user_to_add }} ALL=(ALL) NOPASSWD: ALL"
     mode: '0440'
   become: true
