@@ -1,8 +1,13 @@
-# /AI-Toolbox/ansible/playbooks/setup_skyynet_ai.yml
+# /AI-Toolbox/ansible/playbooks/environment_stable_diffusion.yml
 
 # This playbook calls roles as necessary to configure the packages and dependencies
-# necessary to create a base container environment for the Detectron2 conputer Vision AI framework.
+# necessary to create a base container environment for the Stable Diffusion model and UI.
 
+#### define global vars
+
+- hosts: all
+  vars_files:
+    - ../vars/global.yml
 
 #### this section of code only installs general packages at their "latest" version ####
 
@@ -28,6 +33,7 @@
 
 #### from this point down, specific dependancies or versions of packages required by Detectron2 are installed as roles
 
+
 - name: Configure New User
   include_role:
     name: role_configure_new_user
@@ -39,6 +45,22 @@
 - name: Configure pyenv
   include_role:
     name: role_configure_pyenv
+
+- name: Installations as new user
+  become: yes
+  become_user: "{{ sd_user }}"
+  block:
+    - name: Install pyenv
+      include_role:
+        name: role_configure_pyenv
+      vars:
+        python_version: "{{ 3.10.0 }}"  
+
+    - name: Install Stable Diffusion and 1111 UI
+      include_role:
+        name: role_configure_stable_diffusion
+
+
 
 # - name: Configure Docker
 #   include_role:
