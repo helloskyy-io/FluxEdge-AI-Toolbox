@@ -5,11 +5,6 @@
 # users (based on use case)
 
 # stable diffusion user
-sd_user:
-    - "sduser"
-
-sd_password:
-    - "sduser"
-
-sd_sudoers:
-    - "yes"
+sd_user: "sduser"
+sd_password: "sduser"
+sd_sudoers: "yes"
