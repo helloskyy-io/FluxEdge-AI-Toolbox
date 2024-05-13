@@ -11,14 +11,12 @@
   become: true
   become_user: "{{ user }}"
 
-- name: Install git and python3.10-venv
+- name: Install python3.10-venv
   apt:
     name:
-      - git
       - python3.10-venv
     state: latest
   become: true
-  become_user: "{{ user }}"
 
 - name: Clone Stable Diffusion web UI repository
   git:
