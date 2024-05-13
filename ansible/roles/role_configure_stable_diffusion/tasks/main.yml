@@ -8,22 +8,37 @@
     owner: "{{ user }}"
     group: "{{ user }}"
     mode: '0755'
+  become: true
+  become_user: "{{ user }}"
 
-- name: Download Stable Diffusion webui.sh
-  get_url:
-    url: https://raw.githubusercontent.com/AUTOMATIC1111/stable-diffusion-webui/master/webui.sh
-    dest: "{{ sd_install_path }}/webui.sh"
-    mode: '0755'
-    owner: "{{ user }}"
-    group: "{{ user }}"
+- name: Install git and python3.10-venv
+  apt:
+    name:
+      - git
+      - python3.10-venv
+    state: latest
+  become: true
+  become_user: "{{ user }}"
 
-- name: Make webui.sh executable
-  file:
-    path: "{{ sd_install_path }}/webui.sh"
-    mode: '0755'
+- name: Clone Stable Diffusion web UI repository
+  git:
+    repo: 'https://github.com/AUTOMATIC1111/stable-diffusion-webui.git'
+    dest: "{{ sd_install_path }}/stable-diffusion-webui"
+    version: "main"
+  become: true
+  become_user: "{{ user }}"
 
-- name: Run webui.sh within a login shell
-  command: /bin/bash -lc "{{ sd_install_path }}/webui.sh --listen --api"
+- name: Set up Python virtual environment
+  command:
+    cmd: "python3.10 -m venv venv"
+    chdir: "{{ sd_install_path }}/stable-diffusion-webui"
+  become: true
+  become_user: "{{ user }}"
+
+- name: Run webui.sh within a virtual environment
+  command:
+    cmd: "./venv/bin/python webui.sh --listen --api"
+    chdir: "{{ sd_install_path }}/stable-diffusion-webui"
   async: 0
   poll: 0
   register: webui_process
