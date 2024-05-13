@@ -22,7 +22,7 @@
   git:
     repo: 'https://github.com/AUTOMATIC1111/stable-diffusion-webui.git'
     dest: "{{ sd_install_path }}/stable-diffusion-webui"
-    version: "main"
+    version: "master"
   become: true
   become_user: "{{ user }}"
 
