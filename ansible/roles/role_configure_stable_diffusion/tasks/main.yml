@@ -34,13 +34,14 @@
   become_user: "{{ user }}"
 
 - name: Run webui.sh within a virtual environment
-  command:
-    cmd: "./venv/bin/python webui.sh --listen --api"
+  shell: |
+    source ./venv/bin/activate
+    ./webui.sh --listen --api
+  args:
     chdir: "{{ sd_install_path }}/stable-diffusion-webui"
-  async: 0
   poll: 0
-  register: webui_process
   become: true
   become_user: "{{ user }}"
   environment:
-    PATH: "{{ ansible_env.PATH }}:/usr/local/bin"
+    PATH: "{{ ansible_env.PATH }}:{{ sd_install_path }}/stable-diffusion-webui/venv/bin"
+
