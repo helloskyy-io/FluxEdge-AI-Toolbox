@@ -51,5 +51,5 @@
     name: role_configure_stable_diffusion
   vars:
     user: "{{ sd_user }}"
-
+    sd_install_path: "/opt/stable_diffusion"
         
