@@ -1,6 +1,26 @@
 ---
 # tasks file for role_configure_stable_diffusion
 
+- name: Update apt cache
+  apt:
+    update_cache: yes
+  become: true
+
+- name: Install system dependencies for Stable Diffusion
+  apt:
+    name:
+      - libgl1
+      - libgoogle-perftools-dev
+    state: latest
+  become: true
+
+- name: Set environment variable for Google Performance Tools
+  lineinfile:
+    path: /etc/environment
+    line: 'LD_PRELOAD="/usr/lib/libtcmalloc_minimal.so.4"'
+    create: yes
+  become: true
+
 - name: Ensure installation directory exists
   file:
     path: "{{ sd_install_path }}"
