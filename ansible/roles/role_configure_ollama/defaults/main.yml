@@ -8,6 +8,7 @@ default_models:
 
 skyy_net_ai_models:
     # - "llama2:7b"
-    - "gemma"
-    - "codegemma"
+    # - "gemma"
+    #- "codegemma"
+    - "tinyllama"
 
