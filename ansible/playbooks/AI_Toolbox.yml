@@ -36,7 +36,7 @@
        (see environment requirements)
        
        4. Import Skyy-Med Detectron2 medical imaging model (uses AI Toolbox Detectron2 environment)
-       5. (Your custom project here)
+       5. Import Benchmark Blender (Uses Ubuntu Generic Container)
        6. (Your custom project here)
 
        

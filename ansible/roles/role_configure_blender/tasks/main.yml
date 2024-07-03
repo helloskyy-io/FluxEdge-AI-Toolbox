@@ -1,0 +1,27 @@
+---
+# tasks file for role_configure_blender
+
+- name: Create installation directory
+  file:
+    path: "{{ blender_benchmark_cli_dest }}"
+    state: directory
+  become: true
+
+- name: Download Blender Benchmark CLI
+  get_url:
+    url: "{{ blender_benchmark_cli_url }}"
+    dest: "/tmp/blender_benchmark_cli.tar.gz"
+  become: true
+
+- name: Extract Blender Benchmark CLI
+  unarchive:
+    src: "/tmp/blender_benchmark_cli.tar.gz"
+    dest: "{{ blender_benchmark_cli_dest }}"
+    remote_src: yes
+  become: true
+
+- name: Set executable permissions
+  file:
+    path: "{{ blender_benchmark_cli_dest }}/benchmark-launcher-cli"
+    mode: '0755'
+  become: true
