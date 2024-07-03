@@ -75,7 +75,7 @@
         - include_tasks: setup_skyynet_ai.yml
           when: option | int == 4
 
-        - include_tasks: setup_detectron2.yml
+        - include_tasks: setup_benchmark_blender.yml
           when: option | int == 5  
 
         - debug:
