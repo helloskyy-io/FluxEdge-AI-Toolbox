@@ -5,6 +5,7 @@
   file:
     path: "{{ blender_benchmark_cli_dest }}"
     state: directory
+    mode: '0775'  # Ensure the directory is readable, writable, and executable
   become: true
 
 - name: Download Blender Benchmark CLI
@@ -21,15 +22,8 @@
   become: true
 
 - name: Set executable permissions for all files in the directory
-  file:
-    path: "{{ item.path }}"
-    mode: '0755'
-  with_fileglob:
-    - "{{ blender_benchmark_cli_dest }}/**"
-  become: true
-
-- name: Set permissions for the directory itself
-  file:
-    path: "{{ blender_benchmark_cli_dest }}"
-    mode: '0775'
+  find:
+    paths: "{{ blender_benchmark_cli_dest }}"
+    recurse: yes
+  register: files_to_modify
   become: true
