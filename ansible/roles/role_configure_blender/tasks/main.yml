@@ -20,8 +20,16 @@
     remote_src: yes
   become: true
 
-- name: Set executable permissions
+- name: Set executable permissions for all files in the directory
   file:
-    path: "{{ blender_benchmark_cli_dest }}/benchmark-launcher-cli"
+    path: "{{ item.path }}"
     mode: '0755'
+  with_fileglob:
+    - "{{ blender_benchmark_cli_dest }}/**"
+  become: true
+
+- name: Set permissions for the directory itself
+  file:
+    path: "{{ blender_benchmark_cli_dest }}"
+    mode: '0775'
   become: true
