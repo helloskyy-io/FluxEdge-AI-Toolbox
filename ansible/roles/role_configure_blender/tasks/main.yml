@@ -26,4 +26,4 @@
     paths: "{{ blender_benchmark_cli_dest }}"
     recurse: yes
   register: files_to_modify
-  become: true
+  become: truepython3 
