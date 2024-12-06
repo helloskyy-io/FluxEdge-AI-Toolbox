@@ -1,0 +1,96 @@
+# Argo Workflow Definition
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+  generateName: ubuntu-deployment-
+spec:
+  entrypoint: main
+  templates:
+  - name: main
+    steps:
+    - - name: deploy-ubuntu
+        template: deploy
+      - name: post-deployment
+        template: post-hook
+
+  - name: deploy
+    container:
+      image: bitnami/kubectl:latest
+      command: [sh, -c]
+      args: ["kubectl apply -f - <<EOF
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ubuntu-deployment
+  labels:
+    app: ubuntu
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ubuntu
+  template:
+    metadata:
+      labels:
+        app: ubuntu
+    spec:
+      dnsPolicy: None
+      dnsConfig:
+        nameservers:
+         - 8.8.8.8
+         - 1.1.1.1
+      containers:
+      - name: ubuntu-container
+        image: ubuntu:22.04
+        resources:
+          limits:
+            nvidia.com/gpu: 1  # Optional: GPU resource allocation
+        hostNetwork: true
+        command: [\"/bin/bash\"]
+        args: [\"-c\", \"apt-get -y update && apt-get -y upgrade && apt-get -y install vim && sleep infinity\"]
+        ports:
+        - containerPort: 80
+        - containerPort: 22
+        - containerPort: 8888
+        - containerPort: 7860
+        - containerPort: 3000
+EOF"]
+
+  - name: post-hook
+    container:
+      image: ansible/ansible:latest
+      command: [sh, -c]
+      args: ["ansible-playbook /path/to/setup-playbook.yml"]
+---
+# Service Definition
+apiVersion: v1
+kind: Service
+metadata:
+  name: ubuntu-service
+  labels:
+    app: ubuntu
+spec:
+  selector:
+    app: ubuntu
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+      nodePort: 30080
+    - protocol: TCP
+      port: 22
+      targetPort: 22
+      nodePort: 30022
+    - protocol: TCP
+      port: 8888
+      targetPort: 8888
+      nodePort: 38888
+    - protocol: TCP
+      port: 7860
+      targetPort: 7860
+      nodePort: 37860
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000
+      nodePort: 33000
+  type: NodePort
