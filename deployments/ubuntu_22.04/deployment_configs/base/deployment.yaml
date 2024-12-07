@@ -3,8 +3,6 @@ kind: Deployment
 metadata:
   name: ubuntu-deployment
   labels:
-    app: ubuntu
-    deploymentInformation: ubuntu-deployment
 spec:
   replicas: 1
   selector:
