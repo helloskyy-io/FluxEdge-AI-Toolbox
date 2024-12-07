@@ -1,34 +1,81 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Workflow
 metadata:
-  generateName: workflow-launcher-
+  generateName: ubuntu-deployment-
 spec:
-  entrypoint: launch
+  entrypoint: main
   arguments:
     parameters:
       - name: repoUrl
-        value: "https://github.com/helloskyy-io/FluxEdge-AI-Toolbox.git"
+        value: "https://github.com/helloskyy-io/FluxEdge-AI-Toolbox.git"  # Public repository URL
       - name: repoBranch
-        value: "main"
-      - name: workflowPath
-        value: "/deployments/ubuntu_22.04/argo_cd/workflow_main.yml"
+        value: "main"  # Branch to clone
   templates:
-  - name: launch
+  - name: main
     steps:
-    - - name: fetch-and-execute
-        template: fetch-execute
+      - - name: clone-repo
+          template: clone-repo
+          arguments:
+            parameters:
+              - name: repoUrl
+                value: "{{workflow.parameters.repoUrl}}"
+              - name: repoBranch
+                value: "{{workflow.parameters.repoBranch}}"
 
-  - name: fetch-execute
-    script:
+      - - name: kustomize-build
+          template: kustomize-build
+          arguments:
+            artifacts:
+              - name: repo
+                from: "{{steps.clone-repo.outputs.artifacts.repo}}"
+
+      - - name: apply-kubectl
+          template: apply-kubectl
+          arguments:
+            artifacts:
+              - name: manifests
+                from: "{{steps.kustomize-build.outputs.artifacts.manifests}}"
+
+  - name: clone-repo
+    inputs:
+      parameters:
+        - name: repoUrl
+        - name: repoBranch
+    container:
       image: alpine/git
       command: [sh, -c]
+      args: [
+        "git clone --branch {{inputs.parameters.repoBranch}} {{inputs.parameters.repoUrl}} /workspace && ls /workspace"
+      ]
+    outputs:
+      artifacts:
+        - name: repo
+          path: /workspace
+
+  - name: kustomize-build
+    inputs:
+      artifacts:
+        - name: repo
+          path: /workspace
+    script:
+      image: line/kubectl-kustomize
+      command: [sh]
       source: |
-        # Clone the repo containing the main workflow
-        git clone --branch {{workflow.parameters.repoBranch}} {{workflow.parameters.repoUrl}} /workspace
-        # Navigate to the specified workflow path
-        cd /workspace{{workflow.parameters.workflowPath}}
-        # Submit the main workflow stored in Git
-        kubectl apply -f workflow_main.yml
+        #!/bin/sh
+        cd /workspace/deployments/ubuntu_22.04/deployment_configs/base
+        kustomize build . -o /workspace/modified
+        ls /workspace/modified
+    outputs:
+      artifacts:
+        - name: manifests
+          path: /workspace/modified
 
-
-
+  - name: apply-kubectl
+    inputs:
+      artifacts:
+        - name: manifests
+          path: /workspace/modified
+    container:
+      image: bitnami/kubectl:1.21
+      command: [sh, -c]
+      args: ["kubectl apply -f /workspace/modified"]
