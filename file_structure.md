@@ -30,15 +30,18 @@ AI-Toolbox/
 ├── ansible/
 │   ├── inventories                             (defines local host only)
 │   ├── playbooks                               (Various entrypoints specific to a deployment)
-│   ├── roles                                   (Generic reusable components specific to a single configuration task)
+│   ├── roles                                   (Generic reusable OoP components specific to a single configuration task)
 │   ├── vars                                    (global ansible vars)
 │   └── ansible.cfg                             (edit me later)
 │
 ├── bash/
 │
 ├── deployments
-│   ├── ubuntu_18.04
-│   │   ├── argo_cd/                            (Additional add on options via UI)
+│   ├── ubuntu_22.04
+│   │   ├── deployment_configs/                 (yml based deployment files)
+│   │   │   ├── argo_cd/                        (Base requirements file for initial dependency resolution)
+│   │   │   ├── base/                           (Base files for deployment and service)
+│   │   │   └── overlay/                        (Environment-specific patches)
 │   │   ├── environment/                        (Configure environment and dependencies)
 │   │   │   ├── requirements.txt                (Base requirements file for initial dependency resolution)
 │   │   │   └── environment.yml                 (Conda env recipe, for reproducing env)

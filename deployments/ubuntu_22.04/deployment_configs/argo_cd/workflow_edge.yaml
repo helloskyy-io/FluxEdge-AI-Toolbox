@@ -1,0 +1,34 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+  generateName: workflow-launcher-
+spec:
+  entrypoint: launch
+  arguments:
+    parameters:
+      - name: repoUrl
+        value: "https://github.com/helloskyy-io/FluxEdge-AI-Toolbox.git"
+      - name: repoBranch
+        value: "main"
+      - name: workflowPath
+        value: "/deployments/ubuntu_22.04/argo_cd/workflow_main.yml"
+  templates:
+  - name: launch
+    steps:
+    - - name: fetch-and-execute
+        template: fetch-execute
+
+  - name: fetch-execute
+    script:
+      image: alpine/git
+      command: [sh, -c]
+      source: |
+        # Clone the repo containing the main workflow
+        git clone --branch {{workflow.parameters.repoBranch}} {{workflow.parameters.repoUrl}} /workspace
+        # Navigate to the specified workflow path
+        cd /workspace{{workflow.parameters.workflowPath}}
+        # Submit the main workflow stored in Git
+        kubectl apply -f workflow_main.yml
+
+
+
