@@ -41,7 +41,7 @@ spec:
 
       - - name: apply-kubectl
           template: apply-kubectl
-          arguments
+          arguments:
             artifacts:
               - name: manifests
                 from: "{{steps.kustomize-build.outputs.artifacts.manifests}}"
@@ -66,6 +66,9 @@ spec:
 
   - name: kustomize-build
     inputs:
+      parameters:
+        - name: nodeSelector
+        - name: deploymentInformation
       artifacts:
         - name: repo
           path: /workspace
@@ -100,7 +103,5 @@ spec:
     container:
       image: bitnami/kubectl:1.21
       command: [sh, -c]
-      args: |
-        echo "Applying manifests..."
-        kubectl apply -f /workspace/modified --dry-run=client
-        kubectl apply -f /workspace/modified
+      args:
+        - "kubectl apply -f /workspace/modified"
