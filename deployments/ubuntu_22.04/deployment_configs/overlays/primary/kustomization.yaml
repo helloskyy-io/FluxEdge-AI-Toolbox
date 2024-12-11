@@ -4,5 +4,5 @@ resources:
   - ../../base
 namePrefix: DEPLOYMENT_INFORMATION-
 patches:
-  - deployment-patch.yaml
-  - service-patch.yaml
+  - path: deployment-patch.yaml
+  - path: service-patch.yaml
