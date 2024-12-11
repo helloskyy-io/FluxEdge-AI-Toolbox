@@ -17,6 +17,7 @@ spec:
         deploymentInformation: ubuntu-deployment
     spec:
       # affinity will be set accordingly by the server
+      hostNetwork: true
       dnsPolicy: None
       dnsConfig:
         nameservers:
@@ -28,7 +29,6 @@ spec:
         resources:
           limits:
             nvidia.com/gpu: 1
-        hostNetwork: true
         command: ["/bin/bash"]
         args:
           - "-c"
