@@ -3,6 +3,9 @@ kind: Workflow
 metadata:
   generateName: ubuntu-deployment-
 spec:
+  serviceAccountName: batch-job-sa
+  nodeSelector:
+    kubernetes.io/hostname: "" # This is the node the workflow will run on. This will be provided by FluxEdge dynamically
   entrypoint: main
   arguments:
     parameters:
@@ -10,6 +13,8 @@ spec:
         value: "https://github.com/helloskyy-io/FluxEdge-AI-Toolbox.git"  # Public repository URL
       - name: repoBranch
         value: "main"  # Branch to clone
+      # Node Selector will be dynamically added by FluxEdge
+      # Deployment Information will be dynmically added by FluxEdge
   templates:
   - name: main
     steps:
@@ -25,6 +30,11 @@ spec:
       - - name: kustomize-build
           template: kustomize-build
           arguments:
+            parameters:
+              - name: nodeSelector
+                value: "{{workflow.parameters.nodeSelector}}"
+              - name: deploymentInformation
+                value: "{{workflow.parameters.deploymentInformation}}"
             artifacts:
               - name: repo
                 from: "{{steps.clone-repo.outputs.artifacts.repo}}"
@@ -62,7 +72,17 @@ spec:
       command: [sh]
       source: |
         #!/bin/sh
-        cd /workspace/deployments/ubuntu_22.04/deployment_configs/base
+        cd /workspace/deployments/ubuntu_22.04/deployment_configs/overlays/primary
+        # Replace placeholders in kustomization.yaml with actual values
+        sed -i "s/\NODE_SELECTOR/{{inputs.parameters.nodeSelector}}/g" deployment-patch.yaml
+        sed -i "s/\DEPLOYMENT_INFORMATION/{{inputs.parameters.deploymentInformation}}/g" deployment-patch.yaml
+        sed -i "s/\DEPLOYMENT_INFORMATION/{{inputs.parameters.deploymentInformation}}/g" service-patch.yaml 
+        sed -i "s/\DEPLOYMENT_INFORMATION/{{inputs.parameters.deploymentInformation}}/g" kustomization.yaml 
+        # Debug replacements
+        # echo "Modified deployment-patch.yaml:"
+        # cat deployment-patch.yaml
+        # echo "Modified service-patch.yaml:"
+        # cat service-patch.yaml# Generate the manifests using kustomize
         kustomize build . -o /workspace/modified
         ls /workspace/modified
     outputs:
@@ -78,4 +98,7 @@ spec:
     container:
       image: bitnami/kubectl:1.21
       command: [sh, -c]
-      args: ["kubectl apply -f /workspace/modified"]
+      args: |
+        echo "Applying manifests..."
+        kubectl apply -f /workspace/modified --dry-run=client
+        kubectl apply -f /workspace/modified

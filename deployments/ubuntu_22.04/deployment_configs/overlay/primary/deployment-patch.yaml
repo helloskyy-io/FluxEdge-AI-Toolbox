@@ -1,0 +1,15 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ubuntu-deployment
+spec:
+  selector:
+    matchLabels:
+      deploymentInformation: DEPLOYMENT_INFORMATION # Placeholder for dynamic replacement
+  template:
+    metadata:
+      labels:
+        deploymentInformation: DEPLOYMENT_INFORMATION # Placeholder for dynamic replacement
+    spec:
+      nodeSelector:
+        kubernetes.io/hostname: NODE_SELECTOR # Placeholder for dynamic replacement
