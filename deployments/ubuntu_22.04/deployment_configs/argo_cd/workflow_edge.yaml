@@ -41,7 +41,7 @@ spec:
 
       - - name: apply-kubectl
           template: apply-kubectl
-          arguments:
+          arguments
             artifacts:
               - name: manifests
                 from: "{{steps.kustomize-build.outputs.artifacts.manifests}}"
@@ -53,14 +53,16 @@ spec:
         - name: repoBranch
     container:
       image: alpine/git
-      command: [sh, -c]
-      args: [
-        "git clone --branch {{inputs.parameters.repoBranch}} {{inputs.parameters.repoUrl}} /workspace && ls /workspace"
-      ]
+      command:
+        - sh
+        - -c
+      args:
+        - "git clone --branch {{inputs.parameters.repoBranch}} {{inputs.parameters.repoUrl}} /workspace && ls /workspace"
     outputs:
       artifacts:
         - name: repo
           path: /workspace
+
 
   - name: kustomize-build
     inputs:
