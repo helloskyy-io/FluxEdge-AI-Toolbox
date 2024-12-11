@@ -8,24 +8,24 @@ spec:
   selector:
     deploymentInformation: ubuntu-deployment
   ports:
-    - protocol: TCP
-      port: 80
+    - port: 80
       targetPort: 80
-      nodePort: 30080
-    - protocol: TCP
-      port: 22
+      protocol: TCP
+      name: http
+    - port: 22
       targetPort: 22
-      nodePort: 30022
-    - protocol: TCP
-      port: 8888
+      protocol: TCP
+      name: ssh
+    - port: 8888
       targetPort: 8888
-      nodePort: 31888
-    - protocol: TCP
-      port: 7860
+      protocol: TCP
+      name: jupyter
+    - port: 7860
       targetPort: 7860
-      nodePort: 31760
-    - protocol: TCP
-      port: 3000
+      protocol: TCP
+      name: gradio
+    - port: 3000
       targetPort: 3000
-      nodePort: 31000
+      protocol: TCP
+      name: grafana
   type: NodePort
