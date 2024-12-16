@@ -13,3 +13,8 @@ spec:
     spec:
       nodeSelector:
         kubernetes.io/hostname: NODE_SELECTOR # Placeholder for dynamic replacement
+      containers:
+      - name: ubuntu-container
+        resources:
+          limits:
+            nvidia.com/gpu: 1
