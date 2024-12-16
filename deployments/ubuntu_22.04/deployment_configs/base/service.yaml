@@ -16,16 +16,4 @@ spec:
       targetPort: 22
       protocol: TCP
       name: ssh
-    - port: 8888
-      targetPort: 8888
-      protocol: TCP
-      name: jupyter
-    - port: 7860
-      targetPort: 7860
-      protocol: TCP
-      name: gradio
-    - port: 3000
-      targetPort: 3000
-      protocol: TCP
-      name: grafana
   type: NodePort

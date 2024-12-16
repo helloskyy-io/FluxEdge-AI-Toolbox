@@ -14,7 +14,7 @@ spec:
       - name: repoBranch
         value: "main"  # Branch to clone
       # Node Selector will be dynamically added by FluxEdge
-      # Deployment Information will be dynmically added by FluxEdge
+      # Deployment Information will be dynamically added by FluxEdge
   templates:
   - name: main
     steps:
@@ -57,12 +57,15 @@ spec:
         - sh
         - -c
       args:
-        - "git clone --branch {{inputs.parameters.repoBranch}} {{inputs.parameters.repoUrl}} /workspace && ls /workspace"
+        - |
+          echo "Cloning repository..."
+          git clone --branch {{inputs.parameters.repoBranch}} {{inputs.parameters.repoUrl}} /workspace
+          echo "Repository content:"
+          ls -al /workspace
     outputs:
       artifacts:
         - name: repo
           path: /workspace
-
 
   - name: kustomize-build
     inputs:
@@ -78,18 +81,22 @@ spec:
       source: |
         #!/bin/sh
         cd /workspace/deployments/ubuntu_22.04/deployment_configs/overlays/primary
-        # Replace placeholders in kustomization.yaml with actual values
+        echo "Replacing placeholders in deployment files..."
         sed -i "s/\NODE_SELECTOR/\"{{inputs.parameters.nodeSelector}}\"/g" deployment-patch.yaml
         sed -i "s/\DEPLOYMENT_INFORMATION/{{inputs.parameters.deploymentInformation}}/g" deployment-patch.yaml
-        sed -i "s/\DEPLOYMENT_INFORMATION/{{inputs.parameters.deploymentInformation}}/g" service-patch.yaml 
-        sed -i "s/\DEPLOYMENT_INFORMATION/{{inputs.parameters.deploymentInformation}}/g" kustomization.yaml 
-        # Debug replacements
-        # echo "Modified deployment-patch.yaml:"
-        # cat deployment-patch.yaml
-        # echo "Modified service-patch.yaml:"
-        # cat service-patch.yaml# Generate the manifests using kustomize
+        sed -i "s/\DEPLOYMENT_INFORMATION/{{inputs.parameters.deploymentInformation}}/g" service-patch.yaml
+        sed -i "s/\DEPLOYMENT_INFORMATION/{{inputs.parameters.deploymentInformation}}/g" kustomization.yaml
+        echo "Modified deployment-patch.yaml:"
+        cat deployment-patch.yaml || true
+        echo "Modified service-patch.yaml:"
+        cat service-patch.yaml || true
+        echo "Modified kustomization.yaml:"
+        cat kustomization.yaml || true
+        echo "Generating manifests using kustomize..."
         kustomize build . -o /workspace/modified
-        ls /workspace/modified
+        echo "Generated manifests:"
+        ls -al /workspace/modified
+        cat /workspace/modified/* || true
     outputs:
       artifacts:
         - name: manifests
@@ -104,4 +111,17 @@ spec:
       image: bitnami/kubectl:1.21
       command: [sh, -c]
       args:
-        - "kubectl apply -f /workspace/modified"
+        - |
+          kubectl apply -f /workspace/modified && \
+          echo "Checking deployment rollout status..." && \
+          kubectl rollout status deployment/flux-deployment-10564-ubuntu-deployment -n default || true && \
+          echo "Describing deployment..." && \
+          kubectl describe deployment flux-deployment-10564-ubuntu-deployment -n default || true && \
+          echo "Listing pods in namespace..." && \
+          kubectl get pods -n default -o wide || true && \
+          echo "Fetching events in namespace..." && \
+          kubectl get events -n default || true
+
+
+
+
