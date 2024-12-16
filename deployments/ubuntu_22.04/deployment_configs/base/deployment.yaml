@@ -26,6 +26,9 @@ spec:
       containers:
       - name: ubuntu-container
         image: ubuntu:22.04
+        resources:
+          limits:
+            nvidia.com/gpu: 1
         command: ["/bin/bash"]
         args:
           - "-c"
