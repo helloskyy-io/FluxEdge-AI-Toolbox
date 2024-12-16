@@ -79,7 +79,7 @@ spec:
         #!/bin/sh
         cd /workspace/deployments/ubuntu_22.04/deployment_configs/overlays/primary
         # Replace placeholders in kustomization.yaml with actual values
-        sed -i "s/\NODE_SELECTOR/{{inputs.parameters.nodeSelector}}/g" deployment-patch.yaml
+        sed -i "s/\NODE_SELECTOR/\"{{inputs.parameters.nodeSelector}}\"/g" deployment-patch.yaml
         sed -i "s/\DEPLOYMENT_INFORMATION/{{inputs.parameters.deploymentInformation}}/g" deployment-patch.yaml
         sed -i "s/\DEPLOYMENT_INFORMATION/{{inputs.parameters.deploymentInformation}}/g" service-patch.yaml 
         sed -i "s/\DEPLOYMENT_INFORMATION/{{inputs.parameters.deploymentInformation}}/g" kustomization.yaml 
