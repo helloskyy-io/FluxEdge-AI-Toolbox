@@ -33,6 +33,4 @@ spec:
         args:
           - "-c"
           - "apt-get -y update && apt-get -y upgrade && apt-get -y install vim && sleep infinity"
-        ports:
-        - containerPort: 80
-        - containerPort: 22
+        
