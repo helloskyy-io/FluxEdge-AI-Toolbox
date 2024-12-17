@@ -1,0 +1,36 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+  generateName: bootstrap-ubuntu-deployment-
+spec:
+  entrypoint: main
+  arguments:
+    parameters:
+      - name: repoUrl
+        value: "https://github.com/helloskyy-io/FluxEdge-AI-Toolbox.git"
+      - name: repoBranch
+        value: "main"
+      - name: workflowPath
+        value: "deployments/ubuntu22.04/argo_cd/workflow.yaml" # External workflow file
+      - name: nodeSelector
+        value: "specific-node-name"
+      - name: deploymentInformation
+        value: "ubuntu-deployment"
+  templates:
+  - name: main
+    steps:
+      - - name: clone-and-submit
+          template: clone-and-submit
+
+  - name: clone-and-submit
+    container:
+      image: alpine/git
+      command: [sh, -c]
+      args:
+        - |
+          echo "Cloning repository..."
+          git clone --branch {{workflow.parameters.repoBranch}} {{workflow.parameters.repoUrl}} /repo
+          echo "Submitting workflow..."
+          argo submit /repo/{{workflow.parameters.workflowPath}} \
+            --parameter nodeSelector={{workflow.parameters.nodeSelector}} \
+            --parameter deploymentInformation={{workflow.parameters.deploymentInformation}}

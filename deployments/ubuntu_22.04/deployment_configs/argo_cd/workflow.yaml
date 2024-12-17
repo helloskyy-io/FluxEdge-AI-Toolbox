@@ -1,0 +1,97 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+  name: ubuntu-22-04
+spec:
+  entrypoint: main
+  arguments:
+    parameters:
+      - name: repoUrl
+      - name: repoBranch
+      - name: nodeSelector
+      - name: deploymentInformation
+  templates:
+    - name: main
+      steps:
+        - - name: clone-repo
+            template: clone-repo
+            arguments:
+              parameters:
+                - name: repoUrl
+                  value: "{{workflow.parameters.repoUrl}}"
+                - name: repoBranch
+                  value: "{{workflow.parameters.repoBranch}}"
+
+        - - name: kustomize-build
+            template: kustomize-build
+            arguments:
+              parameters:
+                - name: nodeSelector
+                  value: "{{workflow.parameters.nodeSelector}}"
+                - name: deploymentInformation
+                  value: "{{workflow.parameters.deploymentInformation}}"
+              artifacts:
+                - name: repo
+                  from: "{{steps.clone-repo.outputs.artifacts.repo}}"
+
+        - - name: apply-kubectl
+            template: apply-kubectl
+            arguments:
+              artifacts:
+                - name: manifests
+                  from: "{{steps.kustomize-build.outputs.artifacts.manifests}}"
+
+    - name: clone-repo
+      inputs:
+        parameters:
+          - name: repoUrl
+          - name: repoBranch
+      container:
+        image: alpine/git
+        command: ["sh", "-c"]
+        args: ["git clone --branch {{inputs.parameters.repoBranch}} {{inputs.parameters.repoUrl}} /workspace"]
+      outputs:
+        artifacts:
+          - name: repo
+            path: /workspace
+
+    - name: kustomize-build
+      inputs:
+        parameters:
+          - name: nodeSelector
+          - name: deploymentInformation
+        artifacts:
+          - name: repo
+            path: /workspace
+      script:
+        image: line/kubectl-kustomize
+        command: [sh]
+        source: |
+          cd /workspace/deployments/ubuntu_22.04/deployment_configs/overlays/primary
+          echo "Replacing placeholders..."
+          sed -i "s/NODE_SELECTOR/{{inputs.parameters.nodeSelector}}/g" deployment-patch.yaml
+          sed -i "s/DEPLOYMENT_INFORMATION/{{inputs.parameters.deploymentInformation}}/g" deployment-patch.yaml
+          kustomize build . -o /workspace/modified
+      outputs:
+        artifacts:
+          - name: manifests
+            path: /workspace/modified
+
+    - name: apply-kubectl
+      inputs:
+        artifacts:
+          - name: manifests
+            path: /workspace/modified
+      container:
+        image: bitnami/kubectl:1.21
+        command: [sh, "-c"]
+        args: |
+          kubectl apply -f /workspace/modified && \
+          echo "Checking rollout status..." && \
+          kubectl rollout status deployment/flux-deployment-10564-ubuntu-deployment -n default || true && \
+          echo "Describing deployment..." && \
+          kubectl describe deployment flux-deployment-10564-ubuntu-deployment -n default || true && \
+          echo "Listing pods..." && \
+          kubectl get pods -n default -o wide || true && \
+          echo "Fetching events..." && \
+          kubectl get events -n default || true
