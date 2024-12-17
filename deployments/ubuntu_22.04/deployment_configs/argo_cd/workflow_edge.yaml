@@ -46,6 +46,13 @@ spec:
               - name: manifests
                 from: "{{steps.kustomize-build.outputs.artifacts.manifests}}"
 
+      - - name: post-sync-hook
+          template: post-sync-hook
+          arguments:
+            artifacts:
+              - name: repo
+                from: "{{steps.clone-repo.outputs.artifacts.repo}}"
+
   - name: clone-repo
     inputs:
       parameters:
@@ -112,6 +119,7 @@ spec:
       command: [sh, -c]
       args:
         - |
+          echo "Applying Kubernetes manifests..."
           kubectl apply -f /workspace/modified && \
           echo "Checking deployment rollout status..." && \
           kubectl rollout status deployment/flux-deployment-10564-ubuntu-deployment -n default || true && \
@@ -122,6 +130,42 @@ spec:
           echo "Fetching events in namespace..." && \
           kubectl get events -n default || true
 
-
-
-
+  - name: post-sync-hook
+    inputs:
+      artifacts:
+        - name: repo
+          path: /workspace
+    container:
+      image: bitnami/kubectl:1.21
+      command: [sh, -c]
+      args:
+        - |
+          echo "Creating PostSync hook job..."
+          cat <<EOF | kubectl apply -f -
+          apiVersion: batch/v1
+          kind: Job
+          metadata:
+            name: ubuntu-post-sync
+            annotations:
+              argocd.argoproj.io/hook: PostSync
+              argocd.argoproj.io/hook-delete-policy: HookSucceeded
+          spec:
+            template:
+              spec:
+                containers:
+                - name: ansible-runner
+                  image: ansible/ansible-runner:latest
+                  command: ["/bin/bash", "-c"]
+                  args:
+                    - "ansible-playbook -i 'localhost,' -c local /workspace/deployments/deployment_configs/post_sync_hook/ubuntu_post_sync.yml"
+                  volumeMounts:
+                  - name: playbooks
+                    mountPath: /workspace/deployments/ubuntu_22.04/deployment_configs/post_sync_hook
+                volumes:
+                - name: playbooks
+                  hostPath:
+                    path: /workspace/deployments/ubuntu_22.04/deployment_configs/post_sync_hook
+                restartPolicy: Never
+          EOF
+          echo "Waiting for PostSync hook to complete..."
+          kubectl wait --for=condition=complete job/ubuntu-post-sync --timeout=300s
