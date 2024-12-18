@@ -140,32 +140,7 @@ spec:
       command: [sh, -c]
       args:
         - |
-          echo "Creating PostSync hook job..."
-          cat <<EOF | kubectl apply -f -
-          apiVersion: batch/v1
-          kind: Job
-          metadata:
-            name: ubuntu-post-sync
-            annotations:
-              argocd.argoproj.io/hook: PostSync
-              argocd.argoproj.io/hook-delete-policy: HookSucceeded
-          spec:
-            template:
-              spec:
-                containers:
-                - name: ansible-runner
-                  image: ansible/ansible-runner:latest
-                  command: ["/bin/bash", "-c"]
-                  args:
-                    - "ansible-playbook -i 'localhost,' -c local /workspace/deployments/deployment_configs/post_sync_hook/ubuntu_post_sync.yml"
-                  volumeMounts:
-                  - name: playbooks
-                    mountPath: /workspace/deployments/ubuntu_22.04/deployment_configs/post_sync_hook
-                volumes:
-                - name: playbooks
-                  hostPath:
-                    path: /workspace/deployments/ubuntu_22.04/deployment_configs/post_sync_hook
-                restartPolicy: Never
-          EOF
+          echo "Applying PostSync hook job from file..."
+          kubectl apply -f /workspace/deployments/ubuntu_22.04/deployment_configs/post_sync_hook/post_sync_hook.yaml
           echo "Waiting for PostSync hook to complete..."
           kubectl wait --for=condition=complete job/ubuntu-post-sync --timeout=300s
