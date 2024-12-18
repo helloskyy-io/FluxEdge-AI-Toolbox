@@ -142,7 +142,7 @@ spec:
         - |
           echo "Creating ConfigMap for the playbook..."
           kubectl create configmap ubuntu-playbook-config \
-            --from-file=/workspace/deployments/ubuntu_22.04/deployment_configs/post_sync_hook/ubuntu_post_sync.yaml || \
+            --from-file=/workspace/deployments/ubuntu_22.04/deployment_configs/post_sync_hook/ubuntu_playbook_config.yaml || \
             echo "ConfigMap already exists, skipping creation."
 
   - name: post-sync-hook
