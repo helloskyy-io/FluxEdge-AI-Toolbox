@@ -10,7 +10,7 @@ spec:
     spec:
       containers:
       - name: ansible-runner
-        image: ansible/ansible-runner                 # Use an Ansible image
+        image: ansible/ansible-runner:latest          # Use an Ansible image
         command: ["/bin/bash", "-c"]
         args:
           - >
